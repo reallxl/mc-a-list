@@ -31,7 +31,20 @@ class TodoEditor extends React.Component {
 
   handleSave = () => {
     if (this.state.content.description.length) {
-      return this.props.handleSave(this.state.content);
+      if (this.state.content.date.length === 0) {
+        //--- default to today if not explicitly specified
+        const content = {
+          ...this.state.content,
+        };
+        content.date = new Date().toISOString().substring(0, 10);
+
+        return this.setState({
+          content: content,
+        },
+        () => this.props.handleSave(this.state.content));
+      } else {
+        return this.props.handleSave(this.state.content);
+      }
     } else {
       return this.props.handleCancel();
     }
@@ -47,15 +60,17 @@ class TodoEditor extends React.Component {
   render() {
     return (
       <div>
-        Type: <Select name="type" name="type" options={ [ 'personal', 'business', 'interest', 'shopping', 'date', ] } value={ this.state.content.type } handleChange={ this.handleChange } />
-        <input name="tags" name="description" placeholder="description" value={ this.state.content.description } onChange={ this.handleChange } />
+        Type: <Select name="type" options={ [ 'personal', 'business', 'interest', 'shopping', 'date', ] } value={ this.state.content.type } handleChange={ this.handleChange } />
+        <input name="description" placeholder="description" value={ this.state.content.description } onChange={ this.handleChange } />
         <input name="tags" type="text" placeholder="tags" value={ this.state.content.tags } onChange={ this.handleChange } />
         { this.state.isSimpleFormat || (
           <span>
             <br />
             Color: <input name="color" type="color" value={ this.state.content.color } onChange={ this.handleChange } />
-            From: <input name="from" type="datetime-local" value={ this.state.content.from } onChange={ this.handleChange } />
-            Till: <input name="till" type="datetime-local" value={ this.state.content.till } onChange={ this.handleChange } />
+            From: <input name="date" type="date" value={ this.state.content.date } onChange={ this.handleChange } />
+            <input name="time" type="time" value={ this.state.content.time } onChange={ this.handleChange } />
+            Till: <input name="tillDate" type="date" value={ this.state.content.tillDate } onChange={ this.handleChange } />
+            <input name="tillTime" type="time" value={ this.state.content.tillTime } onChange={ this.handleChange } />
             <input name="place" type="text" placeholder="place" value={ this.state.content.place } onChange={ this.handleChange } />
             <input name="companion" type="text" placeholder="companion" value={ this.state.content.companion } onChange={ this.handleChange } />
           </span>

@@ -1,11 +1,13 @@
-import CAT from '../definitions/categories';
 import OP from '../definitions/operations';
 import STAT from '../definitions/statuses';
 
 const initState = {
   todos: [],
-  activeTodos: [],
   selectedTodos: [],
+  scope: {
+    from: new Date().toISOString().substring(0, 10),
+    to: new Date().toISOString().substring(0, 10),
+  },
 };
 
 const todoReducer = (state = initState, action) => {
@@ -51,6 +53,10 @@ const todoReducer = (state = initState, action) => {
       } else {
         //--- batch
         todo = selectedTodos.pop();
+      }
+
+      if (todo === undefined) {
+        break;
       }
 
       do {
@@ -127,7 +133,11 @@ const todoReducer = (state = initState, action) => {
     case OP._SORT: {
       let todos;
 
-      if (action.criterion) {
+      if (action.criterion === 'default') {
+        todos = state.todos.slice();
+
+        todos.sort((priorTodo, laterTodo) => priorTodo.id - laterTodo.id);
+      } else {
         //--- sort based on given criterion
         const groupedTodos = [];
 
@@ -135,7 +145,7 @@ const todoReducer = (state = initState, action) => {
           const group = groupedTodos.find(group => group[action.criterion] === todo.content[action.criterion]);
 
           if (group) {
-            //--- categorize into an existing group
+            //--- push into an existing group
             group.todos.push(todo);
           } else {
             //--- add a new group
@@ -150,17 +160,23 @@ const todoReducer = (state = initState, action) => {
         groupedTodos.forEach(group => {
           todos = todos.concat(group.todos);
         });
-      } else {
-        //--- default order (by creation time)
-        todos = state.todos.slice();
-
-        todos.sort((priorTodo, laterTodo) => priorTodo.id - laterTodo.id);
       }
 
       state = {
         ...state,
         todos: todos,
       };
+
+      break;
+    }
+    case OP._UPDATE_SCOPE: {
+      state = {
+        ...state,
+        scope: {
+          from: action.from,
+          to: action.to,
+        },
+      }
 
       break;
     }

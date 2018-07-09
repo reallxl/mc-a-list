@@ -28,8 +28,10 @@ class TodoAdder extends React.Component {
     const EMPTY_CONTENT = {
         type: 'personal',
         color: '',
-        from: '',
-        till: '',
+        date: new Date().toISOString().substring(0, 10),
+        time: '',
+        tillDate: '',
+        tillTime: '',
         place: '',
         companion: '',
         description: '',

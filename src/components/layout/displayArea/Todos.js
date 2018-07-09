@@ -33,6 +33,7 @@ class Todos extends React.Component {
   render() {
     return (
       <div className={ classes.Todos }>
+        <p>{ this.props.todos[0].content.date }</p>
         { this.props.todos.map(todo => todo === this.state.curEditingTodo ? (
           <TodoEditor key={ todo.id }
             id={ todo.id }
@@ -56,7 +57,6 @@ class Todos extends React.Component {
 
 const mappedProps = state => {
   return {
-    todos: state.todo.todos,
     selectedTodos: state.todo.selectedTodos,
   };
 };

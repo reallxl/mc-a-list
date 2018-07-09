@@ -5,7 +5,7 @@ const OPERATION = Object.freeze({
   _DELETE: 'DELETE',
   _SELECT: 'SELECT',
   _SORT: 'SORT',
-  _SWITCH_FILTER: 'SWITCH_FILTER',
+  _UPDATE_SCOPE: 'UPDATE_SCOPE',
 });
 
 export default OPERATION;
