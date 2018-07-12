@@ -1,0 +1,11 @@
+const OPERATION = Object.freeze({
+  _ADD: 'ADD',
+  _UPDATE: 'UPDATE',
+  _UPDATE_STATUS: 'UPDATE_STATUS',
+  _DELETE: 'DELETE',
+  _SELECT: 'SELECT',
+  _SORT: 'SORT',
+  _UPDATE_SCOPE: 'UPDATE_SCOPE',
+});
+
+export default OPERATION;

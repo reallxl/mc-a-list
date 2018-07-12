@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 
 import Todo from './Todo';
 import TodoEditor from './TodoEditor';
+import TodoAdder from './TodoAdder';
 
 import OP from '../../../definitions/operations';
 
-import classes from './Todos.css';
+import classes from './DailyTodos.css';
 
-class Todos extends React.Component {
+class DailyTodos extends React.Component {
   state = {
     curEditingTodo: null,
+    todos: this.props.todos,
   };
 
   toggleEditingTodo = (todo) => {
@@ -23,6 +25,7 @@ class Todos extends React.Component {
   };
 
   handleSave = (todo, content) => {
+    console.log('handleSave',content);
     this.props.onUpdateTodo(todo.id, content);
 
     if (this.state.curEditingTodo === todo) {
@@ -32,9 +35,9 @@ class Todos extends React.Component {
 
   render() {
     return (
-      <div className={ classes.Todos }>
-        <p>{ this.props.todos[0].content.date }</p>
-        { this.props.todos.map(todo => todo === this.state.curEditingTodo ? (
+      <div className={ classes.DailyTodos }>
+        <p>{ this.props.date }</p>
+        { this.props.todos && (this.props.todos.map(todo => todo === this.state.curEditingTodo ? (
           <TodoEditor key={ todo.id }
             id={ todo.id }
             content={ todo.content }
@@ -49,7 +52,8 @@ class Todos extends React.Component {
             handleUpdateStatus={ (status) => this.props.onUpdateTodoStatus(todo.id, status) }
             handleEdit={ () => this.toggleEditingTodo(todo) }
             handleDelete={ () => this.props.onDeleteTodo(todo.id) } />
-        )) }
+        ))) }
+        <TodoAdder date={ this.props.date } />
       </div>
     );
   }
@@ -85,4 +89,4 @@ const mappedDispatches = dispatch => {
   };
 };
 
-export default connect(mappedProps, mappedDispatches)(Todos);
+export default connect(mappedProps, mappedDispatches)(DailyTodos);

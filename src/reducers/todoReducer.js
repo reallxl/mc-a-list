@@ -1,17 +1,17 @@
 import OP from '../definitions/operations';
 import STAT from '../definitions/statuses';
 
-const initState = {
+const INIT_STATE = {
   todos: [],
+  filteredTodos: [],
   selectedTodos: [],
-  scope: {
-    from: new Date().toISOString().substring(0, 10),
-    to: new Date().toISOString().substring(0, 10),
-  },
 };
 
-const todoReducer = (state = initState, action) => {
+const todoReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
+    //----------------------------------------------------------------------------------------------------
+    // OP._ADD
+    //----------------------------------------------------------------------------------------------------
     case OP._ADD: {
       const todo = {
         id: new Date().getTime() + state.todos.length,
@@ -26,6 +26,9 @@ const todoReducer = (state = initState, action) => {
 
       break;
     }
+    //----------------------------------------------------------------------------------------------------
+    // OP._UPDATE
+    //----------------------------------------------------------------------------------------------------
     case OP._UPDATE: {
       const todos = state.todos.slice();
       const todo = todos.find(todo => todo.id === action.id);
@@ -34,7 +37,7 @@ const todoReducer = (state = initState, action) => {
         ...todo,
         content: action.content,
       });
-
+      //console.log(action.content);
       state = {
         ...state,
         todos: todos,
@@ -42,24 +45,15 @@ const todoReducer = (state = initState, action) => {
 
       break;
     }
+    //----------------------------------------------------------------------------------------------------
+    // OP._UPDATE_STATUS
+    //----------------------------------------------------------------------------------------------------
     case OP._UPDATE_STATUS: {
       let todos = state.todos.slice();
-      const selectedTodos = state.selectedTodos.slice();
+      const selectedTodos = action.id ? [ todos.find(todo => todo.id === action.id) ] : state.selectedTodos.slice();
       let todo;
 
-      if (action.id) {
-        //--- single
-        todo = todos.find(todo => todo.id === action.id);
-      } else {
-        //--- batch
-        todo = selectedTodos.pop();
-      }
-
-      if (todo === undefined) {
-        break;
-      }
-
-      do {
+      while ((todo = selectedTodos.pop())) {
         if (todo.status !== action.status) {
           todos.splice(todos.indexOf(todo), 1, {
             ...todo,
@@ -71,53 +65,44 @@ const todoReducer = (state = initState, action) => {
             todos = todos.filter(todo => todo.status === STAT._DONE).concat(todos.filter(todo => todo.status !== STAT._DONE));
           }
         }
-      } while (action.id === undefined && (todo = selectedTodos.pop()));
-
-      if (action.id) {
-        //--- single
-        state = {
-          ...state,
-          todos: todos,
-        }
-      } else {
-        //--- batch
-        state = {
-          ...state,
-          todos: todos,
-          selectedTodos: [],
-        }
-      }
-
-      break;
-    }
-    case OP._DELETE: {
-      let todos;
-
-      if (action.id) {
-        //--- single
-        todos = state.todos.filter(todo => todo.id !== action.id);
-      } else {
-        //--- batch
-        todos = state.todos.filter(todo => state.selectedTodos.includes(todo) === false);
       }
 
       state = {
         ...state,
         todos: todos,
-        selectedTodos: [],
+        selectedTodos: action.id ? state.selectedTodos : selectedTodos,
       };
 
       break;
     }
+    //----------------------------------------------------------------------------------------------------
+    // OP._DELETE
+    //----------------------------------------------------------------------------------------------------
+    case OP._DELETE: {
+      const selectedTodos = action.id ? [ state.todos.find(todo => todo.id === action.id) ] : state.selectedTodos.slice();
+
+      state = {
+        ...state,
+        todos: state.todos.filter(todo => selectedTodos.includes(todo) === false),
+        selectedTodos: action.id ? state.selectedTodos : [],
+      };
+
+      break;
+    }
+    //----------------------------------------------------------------------------------------------------
+    // OP._SELECT
+    //----------------------------------------------------------------------------------------------------
     case OP._SELECT: {
       const todo = state.todos.find(todo => todo.id === action.id);
       const selectedTodos = state.selectedTodos.slice();
 
       if (action.value) {
+        //--- select
         if (selectedTodos.includes(todo) === false) {
           selectedTodos.push(todo);
         }
       } else {
+        //--- de-select
         if (selectedTodos.includes(todo)) {
           selectedTodos.splice(selectedTodos.indexOf(todo), 1);
         }
@@ -127,56 +112,6 @@ const todoReducer = (state = initState, action) => {
         ...state,
         selectedTodos: selectedTodos,
       };
-
-      break;
-    }
-    case OP._SORT: {
-      let todos;
-
-      if (action.criterion === 'default') {
-        todos = state.todos.slice();
-
-        todos.sort((priorTodo, laterTodo) => priorTodo.id - laterTodo.id);
-      } else {
-        //--- sort based on given criterion
-        const groupedTodos = [];
-
-        state.todos.forEach(todo => {
-          const group = groupedTodos.find(group => group[action.criterion] === todo.content[action.criterion]);
-
-          if (group) {
-            //--- push into an existing group
-            group.todos.push(todo);
-          } else {
-            //--- add a new group
-            groupedTodos.push({
-              [action.criterion]: todo.content[action.criterion],
-              todos: [ todo, ],
-            });
-          }
-        });
-
-        todos = [];
-        groupedTodos.forEach(group => {
-          todos = todos.concat(group.todos);
-        });
-      }
-
-      state = {
-        ...state,
-        todos: todos,
-      };
-
-      break;
-    }
-    case OP._UPDATE_SCOPE: {
-      state = {
-        ...state,
-        scope: {
-          from: action.from,
-          to: action.to,
-        },
-      }
 
       break;
     }

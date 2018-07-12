@@ -30,28 +30,25 @@ class TodoEditor extends React.Component {
   };
 
   handleSave = () => {
-    //--- default
-    let ret = this.props.handleCacel;
-
     if (this.state.content.description.length) {
-      let content = this.state.content;
-
-      if (content.date.length === 0) {
+      if (this.state.content.date.length === 0) {
         //--- default to today if not explicitly specified
-        content = {
+        const content = {
           ...this.state.content,
-          date: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().substring(0, 10),
         };
+        const curTime = new Date();
+        content.date = new Date(curTime.getTime() - (curTime.getTimezoneOffset() * 60000)).toISOString().substring(0, 10);
+
+        return this.setState({
+          content: content,
+        },
+        () => this.props.handleSave(this.state.content));
+      } else {
+        return this.props.handleSave(this.state.content);
       }
-
-      ret = this.setState({
-        isAutoSaving: false,
-        content: content,
-      },
-      () => this.props.handleSave(this.state.content));
+    } else {
+      return this.props.handleCancel();
     }
-
-    return ret;
   };
 
   handleCancel = () => {
@@ -88,7 +85,6 @@ class TodoEditor extends React.Component {
 
   componentWillUnmount() {
     if (this.state.isAutoSaving) {
-      console.log('autoSaving');
       this.props.handleSave(this.state.content);
     }
   }
