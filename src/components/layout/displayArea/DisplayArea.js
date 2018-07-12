@@ -12,6 +12,7 @@ import classes from './DisplayArea.css';
 
 class DisplayArea extends React.Component {
   state = {
+    sortBase: undefined,
     scope: {
       type: SCOPE._DAY,
       fromDate: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().substring(0, 10),
@@ -39,7 +40,7 @@ class DisplayArea extends React.Component {
           handleUpdateScope={ (type) => this.handleUpdateScope(type) }
           handleBatch={ () => this.props.onBatchProc() }
           handleDelete={ () => this.props.onDelete() }
-          handleSort={ (criterion) => this.handleSort(criterion) } />
+          handleSort={ (sortBase) => this.handleSort(sortBase) } />
         { scope }
         { dailyTodos }
       </div>
@@ -141,10 +142,10 @@ class DisplayArea extends React.Component {
           const todos = this.props.todos.filter(todo => todo.content.date === dateStr);
           if (todos.length) {
             //--- add a new daily todos
-            todoList.push({
+            todoList.push(this.sortDailyTodos({
               date: dateStr,
               todos: todos,
-            });
+            }));
           }
         }
       }
@@ -160,53 +161,64 @@ class DisplayArea extends React.Component {
     }
   };
 
-  handleSort = (criterion) => {
-    const todoList = this.state.scope.todoList.slice();
-    let todos;
+  handleSort = (sortBase) => {
+    this.setState({
+      sortBase: sortBase,
+    },
+    () => {
+      const todoList = this.state.scope.todoList.slice();
+      let todos;
 
-    todoList.forEach(dailyTodos => {
-      //--- sort todos in each date seperately
-      if (criterion === undefined) {
-        todos = dailyTodos.todos.slice();
-        todos.sort((priorTodo, laterTodo) => priorTodo.id - laterTodo.id);
-      } else {
-        //--- sort based on given criterion
-        const sortedTodosList = [];
+      todoList.forEach(dailyTodos => {
+        todoList.splice(todoList.indexOf(dailyTodos), 1, this.sortDailyTodos(dailyTodos));
+      });
 
-        dailyTodos.todos.forEach(todo => {
-          const sortedTodos = sortedTodosList.find(sortedTodos => sortedTodos[criterion] === todo.content[criterion]);
-
-          if (sortedTodos) {
-            //--- push into an existing group
-            sortedTodos.todos.push(todo);
-          } else {
-            //--- add a new group
-            sortedTodosList.push({
-              [criterion]: todo.content[criterion],
-              todos: [ todo, ],
-            });
-          }
-        });
-
-        todos = [];
-        sortedTodosList.forEach(sortedTodos => {
-          todos = todos.concat(sortedTodos.todos);
-        });
-      }
-
-      todoList.splice(todoList.indexOf(dailyTodos), 1, {
-        ...dailyTodos,
-        todos: todos,
+      this.setState({
+        scope: {
+          ...this.state.scope,
+          todoList: todoList,
+        },
       });
     });
-
-    this.setState({
-      scope: {
-        ...this.state.scope,
-        todoList: todoList,
-      },
-    })
   };
+
+  sortDailyTodos = (dailyTodos) => {
+    let todos;
+
+    //--- sort todos in each date seperately
+    if (this.state.sortBase === undefined) {
+      todos = dailyTodos.todos.slice();
+      todos.sort((priorTodo, laterTodo) => priorTodo.id - laterTodo.id);
+    } else {
+      //--- sort based on given criterion
+      const sortedTodosList = [];
+
+      dailyTodos.todos.forEach(todo => {
+        const sortedTodos = sortedTodosList.find(sortedTodos => sortedTodos[this.state.sortBase] === todo.content[this.state.sortBase]);
+
+        if (sortedTodos) {
+          //--- push into an existing group
+          sortedTodos.todos.push(todo);
+        } else {
+          //--- add a new group
+          sortedTodosList.push({
+            [this.state.sortBase]: todo.content[this.state.sortBase],
+            todos: [ todo, ],
+          });
+        }
+      });
+
+      todos = [];
+      sortedTodosList.forEach(sortedTodos => {
+        todos = todos.concat(sortedTodos.todos);
+      });
+    }
+
+    return {
+      ...dailyTodos,
+      todos: todos,
+    };
+  }
 }
 
 const mappedProps = state => {
