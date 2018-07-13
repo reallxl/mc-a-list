@@ -43,7 +43,7 @@ class TodoAdder extends React.Component {
         { this.state.isEditing ?
           <TodoEditor
             content= { EMPTY_CONTENT }
-            handleSave={ (content) => this.props.onAddTodo(content) && this.toggleEditor(false) }
+            handleSave={ (content) => { this.props.onAddTodo(content); this.toggleEditor(false); } }
             handleCancel={ () => this.toggleEditor(false) }
           /> :
           <p className={ classes.TodoAdder }>click to add a todo...</p> }
@@ -54,15 +54,31 @@ class TodoAdder extends React.Component {
 
 const mappedProps = state => {
   return {
+    todos: state.database.todos,
   };
 };
 
+const addTodo = (content) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: OP._ADD,
+      content,
+    });
+
+    const todo = getState().database.todos[getState().database.todos.length - 1];
+
+    if (todo.date >= getState().display.range.fromDate && todo.date <= getState().display.range.toDate) {
+      dispatch({
+        type: OP._DISPLAY,
+        todo,
+      });
+    }
+  };
+}
+
 const mappedDispatches = dispatch => {
   return {
-    onAddTodo: (content) => dispatch({
-      type: OP._ADD,
-      content: content,
-    }),
+    onAddTodo: content => dispatch(addTodo(content)),
   };
 };
 

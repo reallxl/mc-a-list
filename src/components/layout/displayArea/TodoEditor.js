@@ -88,7 +88,6 @@ class TodoEditor extends React.Component {
 
   componentWillUnmount() {
     if (this.state.isAutoSaving) {
-      console.log('autoSaving');
       this.props.handleSave(this.state.content);
     }
   }

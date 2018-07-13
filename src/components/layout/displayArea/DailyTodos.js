@@ -5,6 +5,8 @@ import Todo from './Todo';
 import TodoEditor from './TodoEditor';
 import TodoAdder from './TodoAdder';
 
+import { retrieveTodoContent } from '../../../reducers/utility';
+
 import OP from '../../../definitions/operations';
 
 import classes from './DailyTodos.css';
@@ -16,6 +18,7 @@ class DailyTodos extends React.Component {
   };
 
   toggleEditingTodo = (todo) => {
+    console.log('toggleEditingTodo', todo);
     if (this.state.curEditingTodo !== todo) {
       this.setState({
         ...this.state,
@@ -29,25 +32,24 @@ class DailyTodos extends React.Component {
     this.props.onUpdateTodo(todo.id, content);
 
     if (this.state.curEditingTodo === todo) {
-      this.toggleEditingTodo(null);
+      this.toggleEditingTodo(undefined);
     }
   };
 
-  render() {
+  render = () => {
     return (
       <div className={ classes.DailyTodos }>
         <p>{ this.props.date }</p>
         { this.props.todos && (this.props.todos.map(todo => todo === this.state.curEditingTodo ? (
           <TodoEditor key={ todo.id }
             id={ todo.id }
-            content={ todo.content }
+            content={ retrieveTodoContent(todo) }
             handleSave={ (content) => this.handleSave(todo, content) }
-            handleCancel={ () => this.toggleEditingTodo(null) } />
+            handleCancel={ () => this.toggleEditingTodo(undefined) } />
           ) : (
           <Todo key={ todo.id }
             isSelected={ this.props.selectedTodos.includes(todo) }
-            status={ todo.status }
-            content={ todo.content }
+            content={ retrieveTodoContent(todo) }
             handleSelect={ (value) => this.props.onSelectTodo(todo.id, value) }
             handleUpdateStatus={ (status) => this.props.onUpdateTodoStatus(todo.id, status) }
             handleEdit={ () => this.toggleEditingTodo(todo) }
@@ -56,36 +58,60 @@ class DailyTodos extends React.Component {
         <TodoAdder date={ this.props.date } />
       </div>
     );
-  }
+  };
 }
 
 const mappedProps = state => {
   return {
-    selectedTodos: state.todo.selectedTodos,
+    selectedTodos: state.database.selectedTodos,
   };
 };
 
+const updateTodo = (id, content) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: OP._UPDATE,
+      id,
+      content,
+    });
+    dispatch({
+      type: OP._UPDATE_DISPLAY,
+      todoList: [
+        getState().database.todos.find(todo => todo.id === id),
+      ],
+    });
+  };
+}
+
+const deleteTodo = (id) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: OP._DELETE_DISPLAY,
+      todoList: [
+        getState().database.todos.find(todo => todo.id === id),
+      ],
+    });
+    dispatch({
+      type: OP._DELETE,
+      id,
+    });
+  };
+}
+
 const mappedDispatches = dispatch => {
   return {
-    onUpdateTodo: (id, content) => dispatch({
-      type: OP._UPDATE,
-      id: id,
-      content: content,
-    }),
+    onUpdateTodo: (id, content) => dispatch(updateTodo(id, content)),
     onUpdateTodoStatus: (id, status) => dispatch({
       type: OP._UPDATE_STATUS,
-      id: id,
-      status: status,
+      id,
+      status,
     }),
     onSelectTodo: (id, value) => dispatch({
       type: OP._SELECT,
-      id: id,
-      value: value,
+      id,
+      value,
     }),
-    onDeleteTodo: (id) => dispatch({
-      type: OP._DELETE,
-      id: id,
-    }),
+    onDeleteTodo: (id) => dispatch(deleteTodo(id)),
   };
 };
 

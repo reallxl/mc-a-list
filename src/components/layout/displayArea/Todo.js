@@ -12,14 +12,14 @@ const Todo = (props) => {
   return (
     <div className={ classes.Todo } style={ dynamicStyle }>
       <input type="checkbox" id="select" onChange={ (event) => props.handleSelect(event.target.checked) } checked={ props.isSelected } />
-      { props.status === STATUS._DONE ? (
+      { props.content.status === STATUS._DONE ? (
         <span role="img" className="staticEmoji" id="done" arial-label="done">💯</span>
       ) : (
         <span role="img" id="done" arial-label="done" onClick={ () => props.handleUpdateStatus(STATUS._DONE) }>⚪</span>
       ) }
       { props.content.title }
       { props.content.description }
-      { props.status !== STATUS._DONE && <span role="img" arial-lable="edit" id="edit" onClick={ props.handleEdit }>📝</span> }
+      { props.content.status !== STATUS._DONE && <span role="img" arial-lable="edit" id="edit" onClick={ props.handleEdit }>📝</span> }
       <span role="img" arial-label="delete" id="delete" onClick={ props.handleDelete }>🚮</span>
     </div>
   );

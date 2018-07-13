@@ -16,7 +16,7 @@ const todoReducer = (state = INIT_STATE, action) => {
       const todo = {
         id: new Date().getTime() + state.todos.length,
         status: STAT._ON_GOING,
-        content: action.content,
+        ...action.content,
       };
 
       state = {
@@ -35,9 +35,9 @@ const todoReducer = (state = INIT_STATE, action) => {
 
       todos.splice(todos.indexOf(todo), 1, {
         ...todo,
-        content: action.content,
+        ...action.content,
       });
-      //console.log(action.content);
+
       state = {
         ...state,
         todos: todos,
