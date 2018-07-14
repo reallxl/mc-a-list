@@ -18,7 +18,6 @@ class DailyTodos extends React.Component {
   };
 
   toggleEditingTodo = (todo) => {
-    console.log('toggleEditingTodo', todo);
     if (this.state.curEditingTodo !== todo) {
       this.setState({
         ...this.state,
@@ -28,12 +27,27 @@ class DailyTodos extends React.Component {
   };
 
   handleSave = (todo, content) => {
-    console.log('handleSave',content);
     this.props.onUpdateTodo(todo.id, content);
 
     if (this.state.curEditingTodo === todo) {
       this.toggleEditingTodo(undefined);
     }
+  };
+
+  handleUpdateStatus = (todo, status) => {
+    const {
+      id,
+      ...content,
+    } = todo;
+
+    if (id) {
+      //--- just in order to eliminate compile warning
+    }
+
+    return this.props.onUpdateTodo(todo.id, {
+      ...content,
+      status,
+    });
   };
 
   render = () => {
@@ -53,7 +67,7 @@ class DailyTodos extends React.Component {
             isSelected={ this.props.selectedTodos.includes(todo) }
             content={ retrieveTodoContent(todo) }
             handleSelect={ (value) => this.props.onSelectTodo(todo.id, value) }
-            handleUpdateStatus={ (status) => this.props.onUpdateTodoStatus(todo.id, status) }
+            handleUpdateStatus={ (status) => this.handleUpdateStatus(todo, status) }
             handleEdit={ () => this.toggleEditingTodo(todo) }
             handleDelete={ () => this.props.onDeleteTodo(todo.id) } />
         ))) }
@@ -85,13 +99,15 @@ const updateTodo = (id, content) => {
   };
 }
 
-const deleteTodo = (id) => {
+const deleteTodo = (id = undefined) => {
   return (dispatch, getState) => {
+    const todoList = id ?
+      [ getState().database.todos.find(todo => todo.id === id) ] :
+      getState().database.selectedTodos;
+
     dispatch({
       type: OP._DELETE_DISPLAY,
-      todoList: [
-        getState().database.todos.find(todo => todo.id === id),
-      ],
+      todoList,
     });
     dispatch({
       type: OP._DELETE,
@@ -103,11 +119,6 @@ const deleteTodo = (id) => {
 const mappedDispatches = dispatch => {
   return {
     onUpdateTodo: (id, content) => dispatch(updateTodo(id, content)),
-    onUpdateTodoStatus: (id, status) => dispatch({
-      type: OP._UPDATE_STATUS,
-      id,
-      status,
-    }),
     onSelectTodo: (id, value) => dispatch({
       type: OP._SELECT,
       id,

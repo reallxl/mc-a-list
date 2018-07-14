@@ -7,7 +7,9 @@ const Emoji = props => {
     classes.Emoji,
   ];
 
-  if (props.inactive) {
+  if (props.forbidden) {
+    emojiClasses.push(classes.forbidden);
+  } else if (props.inactive) {
     emojiClasses.push(classes.inactive);
   }
 
@@ -17,7 +19,8 @@ const Emoji = props => {
       role="img"
       aria-label={ props.label }
       onClick={ props.handleClick }
-    >{ props.symbol }
+    >
+      { props.symbol }
     </span>
   );
 };

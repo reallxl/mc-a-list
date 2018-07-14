@@ -1,5 +1,5 @@
 .Emoji {
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .Emoji:hover {
@@ -8,4 +8,8 @@
 
 .inactive:hover {
   cursor: default;
+}
+
+.forbidden:hover {
+  cursor: not-allowed;
 }

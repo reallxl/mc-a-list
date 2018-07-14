@@ -1,5 +1,5 @@
 import OP from '../definitions/operations';
-import STAT from '../definitions/statuses';
+import STATUS from '../definitions/statuses';
 
 const INIT_STATE = {
   todos: [],
@@ -15,7 +15,7 @@ const todoReducer = (state = INIT_STATE, action) => {
     case OP._ADD: {
       const todo = {
         id: new Date().getTime() + state.todos.length,
-        status: STAT._ON_GOING,
+        status: STATUS._ON_GOING,
         ...action.content,
       };
 
@@ -30,48 +30,28 @@ const todoReducer = (state = INIT_STATE, action) => {
     // OP._UPDATE
     //----------------------------------------------------------------------------------------------------
     case OP._UPDATE: {
-      const todos = state.todos.slice();
-      const todo = todos.find(todo => todo.id === action.id);
-
-      todos.splice(todos.indexOf(todo), 1, {
-        ...todo,
-        ...action.content,
-      });
-
-      state = {
-        ...state,
-        todos: todos,
-      };
-
-      break;
-    }
-    //----------------------------------------------------------------------------------------------------
-    // OP._UPDATE_STATUS
-    //----------------------------------------------------------------------------------------------------
-    case OP._UPDATE_STATUS: {
       let todos = state.todos.slice();
-      const selectedTodos = action.id ? [ todos.find(todo => todo.id === action.id) ] : state.selectedTodos.slice();
+      const selectedTodos = action.id ?
+        [ todos.find(todo => todo.id === action.id) ] :
+        state.selectedTodos.slice();
       let todo;
 
       while ((todo = selectedTodos.pop())) {
-        if (todo.status !== action.status) {
-          todos.splice(todos.indexOf(todo), 1, {
-            ...todo,
-            status: action.status,
-          });
+        todos.splice(todos.indexOf(todo), 1, {
+          ...todo,
+          ...action.content,
+        });
 
-          if (action.status === STAT._DONE) {
-            //--- auto sorting while updating status to STAT._DONE
-            todos = todos.filter(todo => todo.status === STAT._DONE).concat(todos.filter(todo => todo.status !== STAT._DONE));
-          }
-        }
       }
 
       state = {
         ...state,
         todos: todos,
-        selectedTodos: action.id ? state.selectedTodos : selectedTodos,
       };
+
+      if (action.id === undefined) {
+        state.selectedTodos = [];
+      }
 
       break;
     }
@@ -79,13 +59,16 @@ const todoReducer = (state = INIT_STATE, action) => {
     // OP._DELETE
     //----------------------------------------------------------------------------------------------------
     case OP._DELETE: {
-      const selectedTodos = action.id ? [ state.todos.find(todo => todo.id === action.id) ] : state.selectedTodos.slice();
+      const selectedTodos = action.id ? [ state.todos.find(todo => todo.id === action.id) ] : state.selectedTodos;
 
       state = {
         ...state,
         todos: state.todos.filter(todo => selectedTodos.includes(todo) === false),
-        selectedTodos: action.id ? state.selectedTodos : [],
       };
+      console.log(state.todos, selectedTodos);
+      if (action.id === undefined) {
+        state.selectedTodos = [];
+      }
 
       break;
     }

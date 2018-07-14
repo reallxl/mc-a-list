@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 
 import OperationBar from './OperationBar';
 import DailyTodos from './DailyTodos';
+import TodoAdder from './TodoAdder';
 
 import { getDateStr } from '../../../reducers/utility';
 
 import OP from '../../../definitions/operations';
-import STATUS from '../../../definitions/statuses';
+import RANGE from '../../../definitions/ranges';
 
 import classes from './DisplayArea.css';
 
@@ -19,13 +20,18 @@ class DisplayArea extends React.Component {
     const rangeString = this.props.range.fromDate !== this.props.range.toDate &&
       <p>{ this.props.range.fromDate }-{ this.props.range.toDate }</p>;
 
+    const shownDailyTodos = this.props.range.type === RANGE._DAY || this.props.range.type === RANGE._WEEK ?
+      this.props.todoList :
+      this.props.todoList.filter(dailyTodos => dailyTodos.todoList.length);
+
     const dailyTodoLists = this.props.todoList.length ?
-      this.props.todoList.map(dailyTodoList => (
+      shownDailyTodos.map(dailyTodoList => (
         <DailyTodos
           key={ dailyTodoList.date }
           date={ dailyTodoList.date }
-          todos={ dailyTodoList.todoList } />)) :
-      //--- dault dummy daily todo list
+          todos={ dailyTodoList.todoList } />
+      )) :
+      //--- add dummy daily todo list
       <DailyTodos
         date={ getDateStr(new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000))) } />;
 
@@ -38,6 +44,8 @@ class DisplayArea extends React.Component {
           handleSort={ (sortingKey) => this.props.onSort(sortingKey) } />
         { rangeString }
         { dailyTodoLists }
+        { (this.props.range.type !== RANGE._DAY && this.props.range.type !== RANGE._WEEK) &&
+          <TodoAdder date={ this.props.date } /> }
       </div>
     );
   };
@@ -53,6 +61,23 @@ const updateRange = (rangeType) => {
   };
 }
 
+const deleteTodo = (id = undefined) => {
+  return (dispatch, getState) => {
+    const todoList = id ?
+      [ getState().database.todos.find(todo => todo.id === id) ] :
+      getState().database.selectedTodos;
+
+    dispatch({
+      type: OP._DELETE_DISPLAY,
+      todoList,
+    });
+    dispatch({
+      type: OP._DELETE,
+      id,
+    });
+  };
+};
+
 const mappedProps = state => {
   return {
     todos: state.database.todos,
@@ -63,13 +88,7 @@ const mappedProps = state => {
 
 const mappedDispatches = dispatch => {
   return {
-    onBatchProc: () => dispatch({
-      type: OP._UPDATE_STATUS,
-      status: STATUS._DONE,
-    }),
-    onDelete: () => dispatch({
-      type: OP._DELETE,
-    }),
+    onDelete: () => dispatch(deleteTodo()),
     onUpdateRange: (rangeType) => dispatch(updateRange(rangeType)),
     onSort: (sortingKey) => dispatch({
       type: OP._SORT,

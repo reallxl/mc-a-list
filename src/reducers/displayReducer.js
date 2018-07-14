@@ -55,9 +55,10 @@ const displayReducer = (state = initState, action) => {
         const oldTodo = todoList.find(testTodo => testTodo.id === todo.id);
 
         todoList.splice(todoList.indexOf(oldTodo), 1, todo);
+
         rangeTodoList.splice(rangeTodoList.indexOf(dailyTodoList), 1, {
           ...dailyTodoList,
-          todoList,
+          todoList: sortTodoList(todoList, state.sortingKey),
         });
       });
 

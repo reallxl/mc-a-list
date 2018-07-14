@@ -25,7 +25,12 @@ class Todo extends React.Component {
     };
 
     return (
-      <div className={ classes.Todo } style={ dynamicStyle } onMouseEnter={ () => this.handleHover(true) } onMouseLeave={ () => this.handleHover(false) }>
+      <div
+        className={ classes.Todo }
+        style={ dynamicStyle }
+        onMouseEnter={ () => this.handleHover(true) }
+        onMouseLeave={ () => this.handleHover(false) }
+      >
         { this.state.isActive ? (
           <span>
             <input type="checkbox" id="select" onChange={ (event) => this.props.handleSelect(event.target.checked) } checked={ this.props.isSelected } />
@@ -39,6 +44,7 @@ class Todo extends React.Component {
           </span>
         ) : (
           <span>
+            { this.props.content.status === STATUS._DONE && <Emoji symbol="💯" label="done" inactive /> }
             { this.props.content.description }
           </span>
         ) }
