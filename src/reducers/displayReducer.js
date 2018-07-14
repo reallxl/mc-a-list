@@ -1,7 +1,6 @@
 import * as DEFAULT from '../definitions/defaultSettings';
 
 import OP from '../definitions/operations';
-import STAT from '../definitions/statuses';
 import RANGE from '../definitions/ranges';
 
 import { sortTodoList, getDateStr } from './utility';
@@ -26,7 +25,7 @@ const displayReducer = (state = initState, action) => {
         //--- push into an existing daily todos
         rangeTodoList.splice(rangeTodoList.indexOf(dailyTodoList), 1, {
           ...dailyTodoList,
-          todoList: dailyTodoList.todoList.concat(action.todo),
+          todoList: sortTodoList(dailyTodoList.todoList.concat(action.todo), state.sortingKey),
         });
       } else {
         //--- add a new daily todos
@@ -154,20 +153,22 @@ const displayReducer = (state = initState, action) => {
       break;
     }
     case OP._SORT: {
-      console.log(OP._SORT, action.sortingKey);
       const rangeTodoList = state.rangeTodoList.map(dailyTodoList => {
         return {
           ...dailyTodoList,
           todoList: sortTodoList(dailyTodoList.todoList.slice(), action.sortingKey),
         };
       });
-      console.log(rangeTodoList);
+
       state = {
         ...state,
         sortingKey: action.sortingKey,
         rangeTodoList,
       };
 
+      break;
+    }
+    default: {
       break;
     }
   }

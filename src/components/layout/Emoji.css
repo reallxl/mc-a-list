@@ -1,0 +1,11 @@
+.Emoji {
+  font-size: 16px;
+}
+
+.Emoji:hover {
+  cursor: pointer;
+}
+
+.inactive:hover {
+  cursor: default;
+}

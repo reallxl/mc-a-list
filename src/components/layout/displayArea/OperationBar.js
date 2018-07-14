@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Emoji from '../Emoji';
+
 import RANGE from '../../../definitions/ranges';
 
 import classes from './OperationBar.css';
@@ -14,11 +16,11 @@ const OperationBar = (props) => {
         <span className="functionalText" onClick={ () => props.handleUpdateRange(RANGE._SEASON) }>Ⓢ</span>
         <input type="date" onChange={ (event) => props.handleUpdateRange(event.target.value) } />
       </p>
-      <span role="img" arial-label="prev" onClick={ () => props.handleSort('color') }>⏪</span>
-      <span role="img" arial-label="next" onClick={ () => props.handleSort('id') }>⏩</span>
-      <span role="img" arial-label="batch" onClick={ props.handleBatch }>📚</span>
-      <span role="img" arial-label="delete" onClick={ props.handleDelete }>🚮</span>
-      <span role="img" arial-label="sort" onClick={ () => props.handleSort('type') }>📋</span>
+      <Emoji symbol="⏪" label="prev" handleClick={ () => props.handleSort('color') } />
+      <Emoji symbol="⏩" label="next" handleClick={ () => props.handleSort('id') } />
+      <Emoji symbol="📚" label="batch" handleClick={ props.handleBatch } />
+      <Emoji symbol="🚮" label="delete" handleClick={ props.handleDelete } />
+      <Emoji symbol="📋" label="sort" handleClick={ () => props.handleSort('type') } />
     </div>
   );
 };

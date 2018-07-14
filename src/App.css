@@ -16,18 +16,6 @@
   font-weight: bold;
 }
 
-:global span[role="img"] {
-  font-size: 20px;
-}
-
-:global span[role="img"]:hover {
-  cursor: pointer;
-}
-
-:global span[role="img"].staticEmoji:hover {
-  cursor: default;
-}
-
 .AppLogo {
   animation: AppLogoSpin infinite 20s linear;
   height: 80px;

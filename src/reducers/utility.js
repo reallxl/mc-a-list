@@ -18,5 +18,9 @@ export const retrieveTodoContent = (todo) => {
     ...content,
   } = todo;
 
+  if (id) {
+    //--- just in order to eliminate compile warning
+  }
+
   return content;
 };

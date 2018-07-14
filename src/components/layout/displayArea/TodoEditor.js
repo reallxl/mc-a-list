@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Select from '../Select';
+import Emoji from '../Emoji';
 
 class TodoEditor extends React.Component {
   state = {
@@ -79,9 +80,12 @@ class TodoEditor extends React.Component {
             <input name="companion" type="text" placeholder="companion" value={ this.state.content.companion } onChange={ this.handleChange } />
           </span>
         ) }
-        <span role="img" arial-label={ this.state.isSimpleFormat ? 'expand' : 'collapse' } onClick={ this.switchDisplayFormat }>{ this.state.isSimpleFormat ? '⏬' : '⏫' }</span>
-        <span role="img" arial-label="save" onClick={ this.handleSave }>✅</span>
-        <span role="img" arial-label="cancel" onClick={ this.handleCancel }>❎</span>
+        { this.state.isSimpleFormat ?
+          <Emoji symbol="⏬" label="expand" handleClick={ this.switchDisplayFormat } /> :
+          <Emoji symbol="⏫" label="collapse" handleClick={ this.switchDisplayFormat } />
+        }
+        <Emoji symbol="✅" label="save" handleClick={ this.handleSave } />
+        <Emoji symbol="❎" label="cancel" handleClick={ this.handleCancel } />
       </div>
     );
   }

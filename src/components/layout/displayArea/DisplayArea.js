@@ -8,7 +8,6 @@ import { getDateStr } from '../../../reducers/utility';
 
 import OP from '../../../definitions/operations';
 import STATUS from '../../../definitions/statuses';
-import RANGE from '../../../definitions/ranges';
 
 import classes from './DisplayArea.css';
 

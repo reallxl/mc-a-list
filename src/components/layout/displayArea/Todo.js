@@ -1,28 +1,50 @@
 import React from 'react';
 
+import Emoji from '../Emoji';
+
 import STATUS from '../../../definitions/statuses';
 
 import classes from './Todo.css';
 
-const Todo = (props) => {
-  const dynamicStyle = {
-    backgroundColor: props.content.color
+class Todo extends React.Component {
+  state = {
+    isActive: this.props.isSelected,
   };
 
-  return (
-    <div className={ classes.Todo } style={ dynamicStyle }>
-      <input type="checkbox" id="select" onChange={ (event) => props.handleSelect(event.target.checked) } checked={ props.isSelected } />
-      { props.content.status === STATUS._DONE ? (
-        <span role="img" className="staticEmoji" id="done" arial-label="done">💯</span>
-      ) : (
-        <span role="img" id="done" arial-label="done" onClick={ () => props.handleUpdateStatus(STATUS._DONE) }>⚪</span>
-      ) }
-      { props.content.title }
-      { props.content.description }
-      { props.content.status !== STATUS._DONE && <span role="img" arial-lable="edit" id="edit" onClick={ props.handleEdit }>📝</span> }
-      <span role="img" arial-label="delete" id="delete" onClick={ props.handleDelete }>🚮</span>
-    </div>
-  );
-};
+  handleHover = (value) => {
+    if (this.props.isSelected === false) {
+      this.setState({
+        isActive: value,
+      });
+    }
+  };
+
+  render = () => {
+    const dynamicStyle = {
+      backgroundColor: this.props.content.color
+    };
+
+    return (
+      <div className={ classes.Todo } style={ dynamicStyle } onMouseEnter={ () => this.handleHover(true) } onMouseLeave={ () => this.handleHover(false) }>
+        { this.state.isActive ? (
+          <span>
+            <input type="checkbox" id="select" onChange={ (event) => this.props.handleSelect(event.target.checked) } checked={ this.props.isSelected } />
+            { this.props.content.status === STATUS._DONE ?
+              <Emoji symbol="💯" label="done" inactive /> :
+              <Emoji symbol="⚪" label="mark" handleClick={ () => this.props.handleUpdateStatus(STATUS._DONE) } />
+            }
+            { this.props.content.description }
+            { this.props.content.status !== STATUS._DONE && <Emoji symbol="📝" label="edit" handleClick={ this.props.handleEdit } /> }
+            <Emoji symbol="🚮" label="delete" handleClick={ this.props.handleDelete } />
+          </span>
+        ) : (
+          <span>
+            { this.props.content.description }
+          </span>
+        ) }
+      </div>
+    );
+  };
+}
 
 export default Todo;

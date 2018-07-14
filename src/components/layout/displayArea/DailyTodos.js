@@ -41,13 +41,15 @@ class DailyTodos extends React.Component {
       <div className={ classes.DailyTodos }>
         <p>{ this.props.date }</p>
         { this.props.todos && (this.props.todos.map(todo => todo === this.state.curEditingTodo ? (
-          <TodoEditor key={ todo.id }
+          <TodoEditor
+            key={ todo.id }
             id={ todo.id }
             content={ retrieveTodoContent(todo) }
             handleSave={ (content) => this.handleSave(todo, content) }
             handleCancel={ () => this.toggleEditingTodo(undefined) } />
           ) : (
-          <Todo key={ todo.id }
+          <Todo
+            key={ todo.id }
             isSelected={ this.props.selectedTodos.includes(todo) }
             content={ retrieveTodoContent(todo) }
             handleSelect={ (value) => this.props.onSelectTodo(todo.id, value) }
