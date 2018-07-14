@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import OperationBar from './OperationBar';
 import DailyTodos from './DailyTodos';
-import TodoAdder from './TodoAdder';
 
 import { getDateStr } from '../../../reducers/utility';
 
@@ -38,28 +37,39 @@ class DisplayArea extends React.Component {
     return (
       <div className={ classes.DisplayArea }>
         <OperationBar
-          handleUpdateRange={ (type) => this.props.onUpdateRange(type) }
+          date={ this.props.range.type === RANGE._DAY ? this.props.range.fromDate : undefined }
+          handleSetRange={ (rangeType, date = undefined) => this.props.onSetRange(rangeType, date) }
+          handleShiftRange={ (dir) => this.props.onShiftRange(dir) }
           handleBatch={ () => this.props.onBatchProc() }
           handleDelete={ () => this.props.onDelete() }
           handleSort={ (sortingKey) => this.props.onSort(sortingKey) } />
         { rangeString }
         { dailyTodoLists }
-        { (this.props.range.type !== RANGE._DAY && this.props.range.type !== RANGE._WEEK) &&
-          <TodoAdder date={ this.props.date } /> }
       </div>
     );
   };
 }
 
-const updateRange = (rangeType) => {
+const setRange = (rangeType, date) => {
   return (dispatch, getState) => {
     dispatch({
-      type: OP._UPDATE_RANGE,
+      type: OP._SET_RANGE,
       rangeType,
+      date,
       todoList: getState().database.todos,
     });
   };
-}
+};
+
+const shiftRange = (dir) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: OP._SHIFT_RANGE,
+      dir,
+      todoList: getState().database.todos,
+    });
+  };
+};
 
 const deleteTodo = (id = undefined) => {
   return (dispatch, getState) => {
@@ -89,7 +99,8 @@ const mappedProps = state => {
 const mappedDispatches = dispatch => {
   return {
     onDelete: () => dispatch(deleteTodo()),
-    onUpdateRange: (rangeType) => dispatch(updateRange(rangeType)),
+    onSetRange: (rangeType, date) => dispatch(setRange(rangeType, date)),
+    onShiftRange: (dir) => dispatch(shiftRange(dir)),
     onSort: (sortingKey) => dispatch({
       type: OP._SORT,
       sortingKey,

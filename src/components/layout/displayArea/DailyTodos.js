@@ -5,7 +5,7 @@ import Todo from './Todo';
 import TodoEditor from './TodoEditor';
 import TodoAdder from './TodoAdder';
 
-import { retrieveTodoContent } from '../../../reducers/utility';
+import { localDate, getDateStr, retrieveTodoContent } from '../../../reducers/utility';
 
 import OP from '../../../definitions/operations';
 
@@ -71,7 +71,7 @@ class DailyTodos extends React.Component {
             handleEdit={ () => this.toggleEditingTodo(todo) }
             handleDelete={ () => this.props.onDeleteTodo(todo.id) } />
         ))) }
-        <TodoAdder date={ this.props.date } />
+        <TodoAdder date={ getDateStr(localDate()) } />
       </div>
     );
   };

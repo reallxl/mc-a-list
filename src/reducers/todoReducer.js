@@ -65,7 +65,7 @@ const todoReducer = (state = INIT_STATE, action) => {
         ...state,
         todos: state.todos.filter(todo => selectedTodos.includes(todo) === false),
       };
-      console.log(state.todos, selectedTodos);
+
       if (action.id === undefined) {
         state.selectedTodos = [];
       }

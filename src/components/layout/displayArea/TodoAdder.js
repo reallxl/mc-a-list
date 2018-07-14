@@ -39,7 +39,7 @@ class TodoAdder extends React.Component {
     };
 
     return (
-      <div onClick={ () => this.toggleEditor(true) }>
+      <span onClick={ () => this.toggleEditor(true) }>
         { this.state.isEditing ?
           <TodoEditor
             content= { EMPTY_CONTENT }
@@ -47,7 +47,7 @@ class TodoAdder extends React.Component {
             handleCancel={ () => this.toggleEditor(false) }
           /> :
           <p className={ classes.TodoAdder }>click to add a todo...</p> }
-      </div>
+      </span>
     );
   }
 }

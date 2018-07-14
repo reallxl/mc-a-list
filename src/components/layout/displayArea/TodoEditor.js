@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { localDate, getDateStr } from '../../../reducers/utility';
+
 import Select from '../Select';
 import Emoji from '../Emoji';
 
@@ -41,7 +43,7 @@ class TodoEditor extends React.Component {
         //--- default to today if not explicitly specified
         content = {
           ...this.state.content,
-          date: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().substring(0, 10),
+          date: getDateStr(localDate()),
         };
       }
 
