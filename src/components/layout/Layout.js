@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 //import { connect } from 'react-redux';
 
 import Menu from './menu/Menu';
-import FilterPanel from './filterPanel/FilterPanel';
+//import FilterPanel from './filterPanel/FilterPanel';
 //import Navigator from './navigator/Navigator';
 import DisplayArea from './displayArea/DisplayArea';
+
+import './global.css';
 
 class Layout extends Component {
   render() {
@@ -15,7 +17,6 @@ class Layout extends Component {
         <tr>
           <td>
             <Menu />
-            <FilterPanel />
           </td>
         </tr>
         <tr>

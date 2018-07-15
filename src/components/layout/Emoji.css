@@ -2,6 +2,10 @@
   font-size: 20px;
 }
 
+.emoji, .larger {
+  font-size: 32px;
+}
+
 .Emoji:hover {
   cursor: pointer;
 }

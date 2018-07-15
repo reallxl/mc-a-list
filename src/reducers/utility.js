@@ -16,6 +16,7 @@ export const getDisplayingTodos = (fromDate, toDate, allTodos, oldRangeTodos, so
 
       rangeTodoList.push({
         date: dateStr,
+        //--- always apply sorting rule automatically
         todoList: sortTodoList(todoList, sortingKey),
       });
     }

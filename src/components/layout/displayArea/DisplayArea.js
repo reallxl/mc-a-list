@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import OperationBar from './OperationBar';
+import PeriodSelector from './PeriodSelector';
 import DailyTodos from './DailyTodos';
 
 import { getDateStr } from '../../../reducers/utility';
@@ -16,9 +16,6 @@ class DisplayArea extends React.Component {
   };
 
   render = () => {
-    const rangeString = this.props.range.fromDate !== this.props.range.toDate &&
-      <p>{ this.props.range.fromDate }-{ this.props.range.toDate }</p>;
-
     const shownDailyTodos = this.props.range.type === RANGE._DAY || this.props.range.type === RANGE._WEEK ?
       this.props.todoList :
       this.props.todoList.filter(dailyTodos => dailyTodos.todoList.length);
@@ -36,14 +33,13 @@ class DisplayArea extends React.Component {
 
     return (
       <div className={ classes.DisplayArea }>
-        <OperationBar
-          date={ this.props.range.type === RANGE._DAY ? this.props.range.fromDate : undefined }
+        <PeriodSelector
+          period={ this.props.range }
           handleSetRange={ (rangeType, date = undefined) => this.props.onSetRange(rangeType, date) }
           handleShiftRange={ (dir) => this.props.onShiftRange(dir) }
           handleBatch={ () => this.props.onBatchProc() }
           handleDelete={ () => this.props.onDelete() }
           handleSort={ (sortingKey) => this.props.onSort(sortingKey) } />
-        { rangeString }
         { dailyTodoLists }
       </div>
     );

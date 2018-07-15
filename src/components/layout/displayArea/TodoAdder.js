@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import TodoEditor from './TodoEditor';
 
+import Emoji from '../Emoji';
+
 import OP from '../../../definitions/operations';
 
 import classes from './TodoAdder.css';
@@ -46,7 +48,7 @@ class TodoAdder extends React.Component {
             handleSave={ (content) => { this.props.onAddTodo(content); this.toggleEditor(false); } }
             handleCancel={ () => this.toggleEditor(false) }
           /> :
-          <p className={ classes.TodoAdder }>click to add a todo...</p> }
+          <Emoji symbol="✳️" label="idea" larger onClick={() => this.toggleEditor(true) } /> }
       </span>
     );
   }
