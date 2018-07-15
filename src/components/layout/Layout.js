@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
 
-import Menu from './menu/Menu';
-//import FilterPanel from './filterPanel/FilterPanel';
-//import Navigator from './navigator/Navigator';
-import DisplayArea from './displayArea/DisplayArea';
+import Menu from './Menu/Menu';
+import DisplayArea from './mainSpace/DisplayArea';
 
-import './global.css';
+import './commonStyling/global.css';
 
 class Layout extends Component {
   render() {

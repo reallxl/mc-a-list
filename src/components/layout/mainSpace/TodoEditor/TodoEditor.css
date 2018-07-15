@@ -1,0 +1,12 @@
+.TodoEditor span {
+  color: black;
+  font-family: 'Oleo Script Swash Caps';
+}
+
+.TodoEditor input[type='text'], input[type='time'] {
+  background-color: black;
+}
+
+.TodoEditor input::placeholder {
+  color: #00FFFF;
+}
