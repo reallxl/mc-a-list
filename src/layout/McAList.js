@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Menu from './Menu/Menu';
 import PeriodSelector from './PeriodSelector/PeriodSelector';
 import FunctionBar from './FunctionBar/FunctionBar';
-import DailyTodos from '../components/DailyTodos/DailyTodos';
+import DailyTodos from './DailyTodos/DailyTodos';
 
 import { getDateStr } from '../global/utilities/utility';
 import { PERIOD } from '../global/definitions/index';

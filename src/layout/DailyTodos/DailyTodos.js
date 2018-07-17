@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Todo from './Todo/Todo';
-import TodoAdder from '../TodoAdder/TodoAdder';
-import TodoEditor from '../TodoEditor/TodoEditor';
+import TodoAdder from '../../components/TodoAdder/TodoAdder';
+import TodoEditor from '../../components/TodoEditor/TodoEditor';
 
 import { getDateStr, getLocalDate, retrieveTodoContent } from '../../global/utilities/utility';
 
