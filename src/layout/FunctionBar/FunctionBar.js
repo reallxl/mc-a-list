@@ -2,9 +2,8 @@ import React from 'react';
 
 //import TodoAdder from './TodoAdder';
 
-import Emoji from '../../../Emoji/Emoji';
+import Emoji from '../../components/Emoji/Emoji';
 
-import '../../commonStyling/select.css';
 import classes from './FunctionBar.css';
 
 const FunctionBar = props => {

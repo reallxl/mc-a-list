@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { getLocalDate, getDateStr } from '../../../../store/reducers/utility';
+import { getLocalDate, getDateStr } from '../../global/utilities/utility';
 
-import Select from '../../Select';
-import Emoji from '../../../Emoji/Emoji';
+import Select from '../Select';
+import Emoji from '../Emoji/Emoji';
 
 import classes from './TodoEditor.css';
 

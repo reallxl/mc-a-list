@@ -6,15 +6,15 @@ export {
 } from './database';
 //--- display
 export {
-  refreshTodos,
-  putOnTodo,
-  rerenderTodos,
-  takeOffTodos,
+  //--- display_period
+  setPeriodType,
+  setPeriod,
+  shiftPeriod,
+  //--- display
+  reloadTodos,
+  renderTodo,
+  reRenderTodos,
+  hideTodos,
   selectTodos,
   sortTodos,
 } from './display';
-//--- period
-export {
-  setPeriodType,
-  updatePeriod,
-} from './period';

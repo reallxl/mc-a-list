@@ -1,40 +1,65 @@
 import ACTION from '../actionTypes';
 
 //----------------------------------------------------------------------------------------------------
-// refreshTodos
+// setPeriodType
 //----------------------------------------------------------------------------------------------------
-export const refreshTodos = (fromDate, toDate, todos) => {
+export const setPeriodType = periodType => {
+  return (dispatch, getState) => {
+    dispatch(doSetPeriodType(periodType));
+    dispatch(reloadTodos(getState().database.todos));
+  };
+};
+//----------------------------------------------------------------------------------------------------
+// setPeriod
+//----------------------------------------------------------------------------------------------------
+export const setPeriod = (periodType, fromDate, toDate) => {
+  return (dispatch, getState) => {
+    dispatch(doSetPeriod(periodType, fromDate, toDate));
+    dispatch(reloadTodos(getState().database.todos));
+  };
+};
+//----------------------------------------------------------------------------------------------------
+// shiftPeriod
+//----------------------------------------------------------------------------------------------------
+export const shiftPeriod = dir => {
+  return (dispatch, getState) => {
+    dispatch(doShiftPeriod(dir));
+    dispatch(reloadTodos(getState().database.todos));
+  };
+};
+//----------------------------------------------------------------------------------------------------
+// reloadTodos
+//----------------------------------------------------------------------------------------------------
+export const reloadTodos = todos => {
   return {
-    type: ACTION._REFRESH,
-    fromDate,
-    toDate,
+    type: ACTION._RELOAD,
     todos,
   };
 };
 //----------------------------------------------------------------------------------------------------
-// putOnTodo
+// renderTod
 //----------------------------------------------------------------------------------------------------
-export const putOnTodo = (todo) => {
+export const renderTodo = todo => {
   return {
-    type: ACTION._PUT_ON,
+    type: ACTION._RENDER,
     todo,
   };
 };
 //----------------------------------------------------------------------------------------------------
-// rerenderTodos
+// reRenderTodo
 //----------------------------------------------------------------------------------------------------
-export const rerenderTodos = (todos) => {
+export const reRenderTodos = todos => {
   return {
-    type: ACTION._RERENDER,
+    type: ACTION._RE_RENDER,
     todos,
   };
 };
 //----------------------------------------------------------------------------------------------------
-// takeOffTodos
+// hideTodos
 //----------------------------------------------------------------------------------------------------
-export const takeOffTodos = (todos) => {
+export const hideTodos = todos => {
   return {
-    type: ACTION._TAKE_OFF,
+    type: ACTION._HIDE,
     todos,
   };
 };
@@ -51,9 +76,36 @@ export const selectTodos = (todos, selected) => {
 //----------------------------------------------------------------------------------------------------
 // sortTodos
 //----------------------------------------------------------------------------------------------------
-export const sortTodos = (sortingKey) => {
+export const sortTodos = sortingKey => {
   return {
     type: ACTION._SORT,
     sortingKey,
+  };
+};
+
+//****************************************************************************************************
+// local functions
+//****************************************************************************************************
+
+const doSetPeriodType = periodType => {
+  return {
+    type: ACTION._SET_PERIOD_TYPE,
+    periodType,
+  };
+};
+
+const doSetPeriod = (periodType, fromDate, toDate) => {
+  return {
+    type: ACTION._SET_PERIOD,
+    periodType,
+    fromDate,
+    toDate,
+  };
+};
+
+const doShiftPeriod = dir => {
+  return {
+    type: ACTION._SHIFT_PERIOD,
+    dir,
   };
 };

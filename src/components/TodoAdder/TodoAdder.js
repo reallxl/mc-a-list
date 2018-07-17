@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import TodoEditor from './TodoEditor/TodoEditor';
+import TodoEditor from '../TodoEditor/TodoEditor';
 
-import Emoji from '../../Emoji/Emoji';
+import Emoji from '../Emoji/Emoji';
 
-import * as ACTION from '../../../store/actions/index';
+import * as ACTION from '../../store/actions/index';
 
-import classes from './TodoAdder.css';
+//import classes from './TodoAdder.css';
 
 class TodoAdder extends React.Component {
   state = {

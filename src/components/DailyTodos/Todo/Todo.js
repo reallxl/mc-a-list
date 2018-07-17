@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Emoji from '../../../../Emoji/Emoji';
+import Emoji from '../../Emoji/Emoji';
 
-import STATUS from '../../../../../definitions/statuses';
+import { STATUS } from '../../../global/definitions/index';
 
 import classes from './Todo.css';
 

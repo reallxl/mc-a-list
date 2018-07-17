@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SearchBar from './SearchBar';
+import SearchBar from './SearchBar/SearchBar';
 
 import logo from './logo.svg';
 import classes from './Menu.css';

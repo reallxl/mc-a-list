@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Emoji from '../../Emoji/Emoji';
+import Emoji from '../../../components/Emoji/Emoji';
 
 import classes from './SearchBar.css';
 

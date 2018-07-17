@@ -1,4 +1,4 @@
-const RANGE = Object.freeze({
+export const PERIOD = Object.freeze({
   _DAY: 'DAY',
   _WEEK: 'WEEK',
   _MONTH: 'MONTH',
@@ -7,5 +7,3 @@ const RANGE = Object.freeze({
   _PREV: 'PREV',
   _NEXT: 'NEXT',
 });
-
-export default RANGE;

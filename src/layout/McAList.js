@@ -1,20 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Menu from './Menu/Menu';
 import PeriodSelector from './PeriodSelector/PeriodSelector';
 import FunctionBar from './FunctionBar/FunctionBar';
-import DailyTodos from './DailyTodos/DailyTodos';
+import DailyTodos from '../components/DailyTodos/DailyTodos';
 
-import { getDateStr } from '../../../store/reducers/utility';
-import RANGE from '../../../definitions/ranges';
+import { getDateStr } from '../global/utilities/utility';
+import { PERIOD } from '../global/definitions/index';
 
-import classes from './DisplayArea.css';
+import classes from './McAList.css';
 
-const DisplayArea = props => {
+const McAList = props => {
   return (
-    <div className={ classes.DisplayArea }>
+    <div className={ classes.McAList }>
       <table>
         <tbody>
+          <tr>
+            <td>
+              <Menu />
+            </td>
+          </tr>
           <tr>
             <td className="L">
               <PeriodSelector />
@@ -33,18 +39,18 @@ const DisplayArea = props => {
 const mappedProps = state => {
   return {
     withinPeriodTodos: state.display.todos,
-    period: state.period.period,
+    period: state.display.period,
   };
 };
 
-export default connect(mappedProps)(DisplayArea);
+export default connect(mappedProps)(McAList);
 
 //****************************************************************************************************
 // local functions
 //****************************************************************************************************
 
 const dailyTodos = props => {
-  const shownDailyTodos = props.period.type === RANGE._DAY || props.period.type === RANGE._WEEK ?
+  const shownDailyTodos = props.period.type === PERIOD._DAY || props.period.type === PERIOD._WEEK ?
     props.withinPeriodTodos :
     //--- show date with existing todos only since the period is quite long
     props.withinPeriodTodos.filter(dailyTodos => dailyTodos.todos.length);

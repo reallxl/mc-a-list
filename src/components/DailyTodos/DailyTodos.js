@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Todo from './Todo/Todo';
-import TodoAdder from '../TodoAdder';
+import TodoAdder from '../TodoAdder/TodoAdder';
 import TodoEditor from '../TodoEditor/TodoEditor';
 
-import { getDateStr, getLocalDate, retrieveTodoContent } from '../../../../store/reducers/utility';
+import { getDateStr, getLocalDate, retrieveTodoContent } from '../../global/utilities/utility';
 
-import * as ACTION from '../../../../store/actions/index';
+import * as ACTION from '../../store/actions/index';
 
 import classes from './DailyTodos.css';
 

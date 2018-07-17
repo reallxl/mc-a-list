@@ -1,5 +1,5 @@
 import ACTION from '../actionTypes';
-import STATUS from '../../definitions/statuses';
+import { STATUS } from '../../global/definitions/index';
 
 //----------------------------------------------------------------------------------------------------
 // reducer

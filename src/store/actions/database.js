@@ -12,7 +12,7 @@ export const addTodo = (content) => {
 
     if (todo.date >= getState().period.period.fromDate && todo.date <= getState().period.period.toDate) {
       //--- put newly added todo onto screen immediately if it's within the period
-      dispatch(display.putOnTodo(todo));
+      dispatch(display.renderTodo(todo));
     }
   };
 };
@@ -25,7 +25,7 @@ export const updateTodos = (todos, content) => {
 
     const updatedTodos = getState().database.todos.filter(todo => todos.find(testTodo => testTodo.id === todo.id));
 
-    dispatch(display.rerenderTodos(updatedTodos));
+    dispatch(display.reRenderTodos(updatedTodos));
   };
 };
 //----------------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ export const updateTodos = (todos, content) => {
 //----------------------------------------------------------------------------------------------------
 export const deleteTodos = (todos) => {
   return (dispatch, getState) => {
-    dispatch(display.takeOffTodos(todos));
+    dispatch(display.hideTodos(todos));
     dispatch(doDeleteTodos(todos));
   };
 };

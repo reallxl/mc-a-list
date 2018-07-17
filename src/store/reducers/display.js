@@ -1,13 +1,21 @@
-import * as DEFAULT from '../../definitions/defaultSettings';
+import * as DEFAULT from '../../settings/default';
+import { PERIOD, STATUS } from '../../global/definitions/index';
 import ACTION from '../actionTypes';
 
-import { sortTodosByKey, getLocalDate, getDateStr } from './utility';
+import * as period from './display_period';
+
+import { getLocalDate, getDateStr } from '../../global/utilities/utility';
 
 //----------------------------------------------------------------------------------------------------
 // reducer
 //----------------------------------------------------------------------------------------------------
 const initState = {
   sortingKey: DEFAULT._SORTING_KEY,
+  period: {
+    type: PERIOD._DAY,
+    fromDate: getDateStr(getLocalDate()),
+    toDate: getDateStr(getLocalDate()),
+  },
   todos: [
     {
       date: getDateStr(getLocalDate()),
@@ -19,12 +27,16 @@ const initState = {
 
 const reducer = (state = initState, action) => {
   switch (action.type) {
-    case ACTION._REFRESH: return refreshTodos(state, action);
-    case ACTION._PUT_ON: return putOnTodo(state, action);
-    case ACTION._RERENDER: return rerenderTodos(state, action);
-    case ACTION._TAKE_OFF: return takeOffTodos(state, action);
+    case ACTION._RELOAD: return reloadTodos(state, action);
+    case ACTION._RENDER: return renderTodo(state, action);
+    case ACTION._RE_RENDER: return reRenderTodos(state, action);
+    case ACTION._HIDE: return hideTodos(state, action);
     case ACTION._SELECT: return selectTodos(state, action);
     case ACTION._SORT: return sortTodos(state, action);
+    //--- display_period
+    case ACTION._SET_PERIOD_TYPE: return period.setPeriodType(state, action);
+    case ACTION._SET_PERIOD: return period.setPeriod(state, action);
+    case ACTION._SHIFT_PERIOD: return period.shiftPeriod(state, action);
     default: return state;
   }
 };
@@ -32,12 +44,12 @@ const reducer = (state = initState, action) => {
 export default reducer;
 
 //----------------------------------------------------------------------------------------------------
-// refreshTodos
+// reloadTodos
 //----------------------------------------------------------------------------------------------------
-const refreshTodos = (state, action) => {
+const reloadTodos = (state, action) => {
   const todos = [];
 
-  for (let d = new Date(action.fromDate); d <= new Date(action.toDate); d.setDate(d.getDate() + 1)) {
+  for (let d = new Date(state.period.fromDate); d <= new Date(state.period.toDate); d.setDate(d.getDate() + 1)) {
     const date = getDateStr(d);
     const dailyTodos = state.todos.find(dailyTodos => dailyTodos.date === date);
 
@@ -63,9 +75,9 @@ const refreshTodos = (state, action) => {
   };
 };
 //----------------------------------------------------------------------------------------------------
-// putOnTodo
+// renderTodo
 //----------------------------------------------------------------------------------------------------
-const putOnTodo = (state, action) => {
+const renderTodo = (state, action) => {
   const todos = state.todos.slice();
   const dailyTodos = todos.find(dailyTodos => dailyTodos.date === action.todo.date);
 
@@ -80,20 +92,20 @@ const putOnTodo = (state, action) => {
   };
 };
 //----------------------------------------------------------------------------------------------------
-// rerenderTodos
+// reRenderTodo
 //----------------------------------------------------------------------------------------------------
-const rerenderTodos = (state, action) => {
-  const withinPeriodTodos = state.todos.slice();
+const reRenderTodos = (state, action) => {
+  const periodTodos = state.todos.slice();
 
   action.todos.forEach(todo => {
-    const dailyTodos = withinPeriodTodos.find(dailyTodos => dailyTodos.date === todo.date);
+    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.date);
     const todos = dailyTodos.todos.slice();
     const oldTodo = todos.find(testTodo => testTodo.id === todo.id);
 
     todos.splice(todos.indexOf(oldTodo), 1, todo);
 
-    //--- might be an inefficient implementation to invoke splice here, think of it later
-    withinPeriodTodos.splice(withinPeriodTodos.indexOf(dailyTodos), 1, {
+    //--- NOTE: might be an inefficient implementation to invoke splice here, think of it later
+    periodTodos.splice(periodTodos.indexOf(dailyTodos), 1, {
       ...dailyTodos,
       todos: sortTodosByKey(todos, state.sortingKey),
     });
@@ -101,19 +113,19 @@ const rerenderTodos = (state, action) => {
 
   return {
     ...state,
-    todos: withinPeriodTodos,
+    todos: periodTodos,
   };
 }
 //----------------------------------------------------------------------------------------------------
-// takeOffTodos
+// hideTodos
 //----------------------------------------------------------------------------------------------------
-const takeOffTodos = (state, action) => {
-  const withinPeriodTodos = state.todos.slice();
+const hideTodos = (state, action) => {
+  const periodTodos = state.todos.slice();
 
   action.todos.forEach(todo => {
-    const dailyTodos = withinPeriodTodos.find(dailyTodos => dailyTodos.date === todo.date);
+    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.date);
 
-    withinPeriodTodos.splice(withinPeriodTodos.indexOf(dailyTodos), 1, {
+    periodTodos.splice(periodTodos.indexOf(dailyTodos), 1, {
       ...dailyTodos,
       todos: dailyTodos.todos.filter(testTodo => testTodo !== todo),
     });
@@ -121,7 +133,7 @@ const takeOffTodos = (state, action) => {
 
   state = {
     ...state,
-    todos: withinPeriodTodos,
+    todos: periodTodos,
   };
 
   return state;
@@ -167,4 +179,34 @@ const sortTodos = (state, action) => {
     sortingKey: action.sortingKey,
     todos,
   };
+};
+
+//****************************************************************************************************
+// local functions
+//****************************************************************************************************
+
+const sortTodosByKey = (todos, sortingKey) => {
+  todos.sort((priorTodo, laterTodo) => {
+    let ret = 0;
+
+    if (priorTodo[sortingKey] < laterTodo[sortingKey]) {
+      ret = -1;
+    } else if ( priorTodo[sortingKey] > laterTodo[sortingKey]) {
+      ret = 1;
+    } else if (priorTodo.status < laterTodo.status) {
+      //--- always put "done" todos at the top of each individual sorted todo group
+      ret = -1;
+    } else if (priorTodo.status > laterTodo.status) {
+      ret = 1;
+    }
+
+    return ret;
+  });
+
+  if (sortingKey === 'id') {
+    //--- which is equivalent to sorting by craetion time
+    todos = todos.filter(todo => todo.status === STATUS._DONE).concat(todos.filter(todo => todo.status !== STATUS._DONE));
+  }
+
+  return todos;
 };

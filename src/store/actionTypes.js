@@ -3,16 +3,17 @@ const ACTION = Object.freeze({
   _ADD: 'ADD',
   _UPDATE: 'UPDATE',
   _DELETE: 'DELETE',
+  //--- display_period
+  _SET_PERIOD_TYPE: '_SET_PERIOD_TYPE',
+  _SET_PERIOD: 'SET_PERIOD',
+  _SHIFT_PERIOD: 'SHIFT_PERIOD',
   //--- display
-  _REFRESH: 'REFRESH',
-  _PUT_ON: 'PUT_ON',
-  _RERENDER: 'RERENDER',
-  _TAKE_OFF: 'TAKE_OFF',
+  _RELOAD: 'RELOAD',
+  _RENDER: 'RENDER',
+  _RE_RENDER: 'RE_RENDER',
+  _HIDE: 'HIDE',
   _SELECT: 'SELECT',
   _SORT: 'SORT',
-  //--- period
-  _SET_PERIOD_TYPE: '_SET_PERIOD_TYPE',
-  _SHIFT_PERIOD: 'SHIFT_PERIOD',
 });
 
 export default ACTION;
