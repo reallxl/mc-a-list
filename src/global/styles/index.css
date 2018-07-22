@@ -1,0 +1,11 @@
+@import './fontFamily.css';
+@import './primitive.css';
+@import './customized.css';
+
+:global * {
+  /*background-color: black;*/
+  color: #00FFFF;
+  font-family: 'Oleo Script Swash Caps';
+  border-radius: 5px;
+  padding: 3px 0px;
+}

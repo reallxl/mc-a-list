@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Todo from './Todo/Todo';
-import TodoAdder from '../../components/TodoAdder/TodoAdder';
 import TodoEditor from '../../components/TodoEditor/TodoEditor';
 
-import { getDateStr, getLocalDate, retrieveTodoContent } from '../../global/utilities/utility';
+import { retrieveTodoContent } from '../../global/utilities/utility';
 
 import * as ACTION from '../../store/actions/index';
 
@@ -64,7 +63,6 @@ class DailyTodos extends React.Component {
             handleEdit={ () => this.toggleEditingTodo(todo) }
             handleDelete={ () => this.props.onDeleteTodos([ todo ]) } />
         ))) }
-        { this.props.date >= getDateStr(getLocalDate()) && <TodoAdder date={ getDateStr(getLocalDate()) } /> }
       </div>
     );
   };

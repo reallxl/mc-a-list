@@ -4,6 +4,15 @@
   right: 4px;
 }
 
+.FunctionBar i {
+  font-size: 24px;
+  color: black;
+}
+
+.FunctionBar i:hover {
+  cursor: pointer;
+}
+
 /* Dropdown Button */
 .dropbtn {
   padding: 16px;

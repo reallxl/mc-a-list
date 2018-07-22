@@ -1,6 +1,5 @@
 /* Select Box Styles: stackoverflow.com Method */
 /* source: http://stackoverflow.com/a/5809186 */
-
 :global select {
    -webkit-appearance: button;
    -webkit-border-radius: 20px;
@@ -15,10 +14,14 @@
    background-color: black;
    border-radius: 5px;
    font-size: inherit;
-   margin: 2px;
+   padding: 4px 0px;
    overflow: hidden;
-   padding: 2px 10px 4px 15px;
    text-overflow: ellipsis;
    white-space: nowrap;
    width: 120px;
+}
+
+:global input[type='date'] {
+  width: 140px;
+  background-color: black;
 }

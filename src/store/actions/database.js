@@ -10,7 +10,7 @@ export const addTodo = (content) => {
 
     const todo = getState().database.todos[getState().database.todos.length - 1];
 
-    if (todo.date >= getState().period.period.fromDate && todo.date <= getState().period.period.toDate) {
+    if (todo.date >= getState().display.period.fromDate && todo.date <= getState().display.period.toDate) {
       //--- put newly added todo onto screen immediately if it's within the period
       dispatch(display.renderTodo(todo));
     }

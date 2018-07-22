@@ -5,64 +5,104 @@ import Menu from './Menu/Menu';
 import PeriodSelector from './PeriodSelector/PeriodSelector';
 import FunctionBar from './FunctionBar/FunctionBar';
 import DailyTodos from './DailyTodos/DailyTodos';
+import TodoAdder from '../components/TodoAdder/TodoAdder';
+import TodoEditor from '../components/TodoEditor/TodoEditor';
 
 import { getDateStr } from '../global/utilities/utility';
 import { PERIOD } from '../global/definitions/index';
 
+import * as ACTION from '../store/actions/index';
+
 import classes from './McAList.css';
 
-const McAList = props => {
-  return (
-    <div className={ classes.McAList }>
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <Menu />
-            </td>
-          </tr>
-          <tr>
-            <td className="L">
-              <PeriodSelector />
-            </td>
-            <td className="R">
-              <FunctionBar />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      { dailyTodos(props) }
-    </div>
-  );
+class McAList extends React.Component {
+  state = {
+    addingTodoToDate: undefined,
+  };
+
+  render = () => {
+    return (
+      <div className={ classes.McAList }>
+        <table>
+          <tbody>
+            <tr>
+              <td colSpan="2">
+                <Menu />
+              </td>
+            </tr>
+            <tr>
+              <td className="L">
+                <PeriodSelector />
+              </td>
+              <td className="R">
+                <FunctionBar />
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="2">
+                { this.layoutContent() }
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  layoutContent = () => {
+    const today = getDateStr();
+    const shownDailyTodos = this.props.period.type === PERIOD._DAY || this.props.period.type === PERIOD._WEEK ?
+      this.props.withinPeriodTodos :
+      //--- show date with existing todos only since the period is quite long
+      this.props.withinPeriodTodos.filter(dailyTodos => dailyTodos.todos.length);
+
+    return shownDailyTodos.length ?
+      shownDailyTodos.map(dailyTodos => {
+        const content = {
+          date: dailyTodos.date,
+        };
+
+        return (
+          <span key={ dailyTodos.date }>
+            <DailyTodos
+              date={ dailyTodos.date }
+              todos={ dailyTodos.todos } />
+            { dailyTodos.date >= today && (
+              dailyTodos.date === this.state.addingTodoToDate ?
+              <TodoEditor
+                content= { content }
+                handleSave={ (content) => { this.props.onAddTodo(content); this.toggleTodoEditor(); } }
+                handleCancel={ () => this.toggleTodoEditor() }
+              /> :
+              <TodoAdder handleAdding={ () => this.toggleTodoEditor(dailyTodos.date) } />
+            )}
+          </span>
+        );
+      }) :
+      //--- add dummy daily todo list
+      <DailyTodos date={ today } />;
+  };
+
+  toggleTodoEditor = (date = undefined) => {
+    if (date !== this.state.addingTodoToDate) {
+      this.setState({
+        addingTodoToDate: date,
+      });
+    }
+  };
 }
 
-const mappedProps = state => {
+const mappedProps = (state) => {
   return {
     withinPeriodTodos: state.display.todos,
     period: state.display.period,
   };
 };
 
-export default connect(mappedProps)(McAList);
+const mappedDispatches = (dispatch) => {
+  return {
+    onAddTodo: content => dispatch(ACTION.addTodo(content)),
+  };
+};
 
-//****************************************************************************************************
-// local functions
-//****************************************************************************************************
-
-const dailyTodos = props => {
-  const shownDailyTodos = props.period.type === PERIOD._DAY || props.period.type === PERIOD._WEEK ?
-    props.withinPeriodTodos :
-    //--- show date with existing todos only since the period is quite long
-    props.withinPeriodTodos.filter(dailyTodos => dailyTodos.todos.length);
-
-  return shownDailyTodos.length ?
-    shownDailyTodos.map(dailyTodos => (
-      <DailyTodos
-        key={ dailyTodos.date }
-        date={ dailyTodos.date }
-        todos={ dailyTodos.todos } />
-    )) :
-    //--- add dummy daily todo list
-    <DailyTodos
-      date={ getDateStr(new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000))) } />;
-}
+export default connect(mappedProps, mappedDispatches)(McAList);

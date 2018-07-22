@@ -16,6 +16,8 @@ const FunctionBar = props => {
           <span><Emoji symbol="🗑️" label="delete" handleClick={ props.handleDelete } /></span>
         </div>
       </span>
+      <i className="fa fa-copy" />
+      <i className="fa fa-align-justify" />
       <span className={ classes.dropdown }>
         <Emoji className={ classes.dropbtn } symbol="📋" label="sort" />
         <div className={ classes.dropdownContent }>

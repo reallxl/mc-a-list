@@ -1,6 +1,12 @@
-.TodoEditor span {
-  color: black;
-  font-family: 'Oleo Script Swash Caps';
+.TodoEditor input[name='date'] {
+  margin: 0px;
+  padding: 3px 0px;
+}
+
+.TodoEditor input[name='description'] {
+  margin: 0px;
+  width: 500px;
+  padding: 3px 0px;
 }
 
 .TodoEditor input[type='text'], input[type='time'] {
@@ -8,5 +14,23 @@
 }
 
 .TodoEditor input::placeholder {
+  color: #00FFFF;
+}
+
+.TodoEditor td[name='lefter'] {
+  text-align: left;
+}
+
+.TodoEditor td[name='righter'] {
+  text-align: right;
+}
+
+.TodoEditor i {
+  font-size: 24px;
+  color: black;
+}
+
+i:hover {
+  cursor: pointer;
   color: #00FFFF;
 }

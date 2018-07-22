@@ -1,0 +1,24 @@
+:global .Button {
+  text-decoration: none;
+  display: inline-block;
+  padding: 5px 16px;
+  background-color: black;
+  cursor: pointer;
+}
+
+:global .Button:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+:global .Lefter {
+  border-radius: 5px 0px 0px 5px;
+}
+
+:global .Righter {
+  border-radius: 0px 5px 5px 0px;
+}
+
+:global .Round {
+  border-radius: 50%;
+}

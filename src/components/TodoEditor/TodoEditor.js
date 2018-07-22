@@ -1,26 +1,69 @@
+//--- modules
 import React from 'react';
-
+import Popup from "reactjs-popup";
+//--- components
+import TodoTags from './TodoTags/TodoTags';
+import TodoDetails from './TodoDetails/TodoDetails';
+import TodoSchedules from './TodoSchedules/TodoSchedules';
+//import Popup from '../Popup/Popup';
+//--- global
 import { getLocalDate, getDateStr } from '../../global/utilities/utility';
-
-import Select from '../Select';
-import Emoji from '../Emoji/Emoji';
-
+//--- local styling
 import classes from './TodoEditor.css';
+
+const EMPTY_CONTENT = {
+    type: 'personal',
+    color: '',
+    date: '',
+    time: '',
+    tillDate: '',
+    tillTime: '',
+    place: '',
+    companion: '',
+    description: '',
+    tags: '',
+};
 
 class TodoEditor extends React.Component {
   state = {
-    content: this.props.content,
-    isSimpleFormat: true,
+    content: {
+      ...EMPTY_CONTENT,
+      ...this.props.content,
+    },
     isAutoSaving: this.props.id ? true : false,
   };
 
-  switchDisplayFormat = () => {
-    let isSimpleFormat = this.state.isSimpleFormat;
-    isSimpleFormat = !isSimpleFormat;
+  render = () => {
+    const arrowStyle = {
+      borderRadius: '0px',
+    };
 
-    this.setState({
-      isSimpleFormat: isSimpleFormat,
-    });
+    return (
+      <div className={ classes.TodoEditor }>
+        <table>
+          <tbody>
+            <tr>
+              <td colSpan="2">
+                <input name="date" type="date" value={ this.state.content.date } onChange={ this.handleChange } />
+                <input name="description" type="text" placeholder="description" value={ this.state.content.description } onChange={ this.handleChange } />
+              </td>
+            </tr>
+            <tr>
+              <td name="lefter">
+                <i className="fa fa-save" onClick={ this.handleSave } />
+                <i className="fa fa-remove" onClick={ this.handleCancel } />
+              </td>
+              <td name="righter">
+                <i className="fa fa-thumb-tack" />
+                <Popup trigger={<i className="fa fa-tags" />} arrowStyle={ arrowStyle }><TodoTags /></Popup>
+                <Popup trigger={<i className="fa fa-edit" />} arrowStyle={ arrowStyle }><TodoDetails /></Popup>
+                <Popup trigger={<i className="fa fa-calendar" />} arrowStyle={ arrowStyle }><TodoSchedules content={ this.state.content } handleChange={ this.handleChange } /></Popup>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
   };
 
   handleChange = (event) => {
@@ -66,41 +109,11 @@ class TodoEditor extends React.Component {
     this.props.handleCancel);
   };
 
-  render() {
-    return (
-      <div className={ classes.TodoEditor }>
-        <span>
-          Type: <Select name="type" options={ [ 'personal', 'business', 'interest', 'shopping', 'date', ] } value={ this.state.content.type } handleChange={ this.handleChange } />
-        </span>
-        <input name="description" type="text" placeholder="description" value={ this.state.content.description } onChange={ this.handleChange } />
-        <input name="tags" type="text" placeholder="tags" value={ this.state.content.tags } onChange={ this.handleChange } />
-        { this.state.isSimpleFormat || (
-          <span>
-            <br />
-            Color: <input name="color" type="color" value={ this.state.content.color } onChange={ this.handleChange } />
-            From: <input name="date" type="date" value={ this.state.content.date } onChange={ this.handleChange } />
-            <input name="time" type="time" value={ this.state.content.time } onChange={ this.handleChange } />
-            Till: <input name="tillDate" type="date" value={ this.state.content.tillDate } onChange={ this.handleChange } />
-            <input name="tillTime" type="time" value={ this.state.content.tillTime } onChange={ this.handleChange } />
-            <input name="place" type="text" placeholder="place" value={ this.state.content.place } onChange={ this.handleChange } />
-            <input name="companion" type="text" placeholder="companion" value={ this.state.content.companion } onChange={ this.handleChange } />
-          </span>
-        ) }
-        { this.state.isSimpleFormat ?
-          <Emoji symbol="⏬" label="expand" handleClick={ this.switchDisplayFormat } /> :
-          <Emoji symbol="⏫" label="collapse" handleClick={ this.switchDisplayFormat } />
-        }
-        <Emoji symbol="✅" label="save" handleClick={ this.handleSave } />
-        <Emoji symbol="❎" label="cancel" handleClick={ this.handleCancel } />
-      </div>
-    );
-  }
-
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     if (this.state.isAutoSaving) {
       this.props.handleSave(this.state.content);
     }
-  }
+  };
 }
 
 export default TodoEditor;
