@@ -9,8 +9,8 @@ export const addTodo = (content) => {
     dispatch(doAddTodo(content));
 
     const todo = getState().database.todos[getState().database.todos.length - 1];
-    console.log('todo',todo.content.date,'period',getState().display.period.fromDate,getState().display.period.toDate);
-    if (todo.content.date >= getState().display.period.fromDate && todo.content.date <= getState().display.period.toDate) {
+
+    if (todo.date >= getState().display.period.fromDate && todo.date <= getState().display.period.toDate) {
       //--- put newly added todo onto screen immediately if it's within the period
       dispatch(display.renderTodo(todo));
     }
@@ -19,11 +19,11 @@ export const addTodo = (content) => {
 //----------------------------------------------------------------------------------------------------
 // updateTodos
 //----------------------------------------------------------------------------------------------------
-export const updateTodos = (ids, content) => {
+export const updateTodos = (todos, content) => {
   return (dispatch, getState) => {
-    dispatch(doUpdateTodos(ids, content));
+    dispatch(doUpdateTodos(todos, content));
 
-    const updatedTodos = getState().database.todos.filter(todo => ids.includes(todo.id));
+    const updatedTodos = getState().database.todos.filter(todo => todos.find(testTodo => testTodo.id === todo.id));
 
     dispatch(display.reRenderTodos(updatedTodos));
   };
@@ -31,10 +31,10 @@ export const updateTodos = (ids, content) => {
 //----------------------------------------------------------------------------------------------------
 // deleteTodos
 //----------------------------------------------------------------------------------------------------
-export const deleteTodos = (ids) => {
+export const deleteTodos = (todos) => {
   return (dispatch, getState) => {
-    dispatch(display.hideTodos(getState().database.todos.filter(todo => ids.includes(todo.id))));
-    dispatch(doDeleteTodos(ids));
+    dispatch(display.hideTodos(todos));
+    dispatch(doDeleteTodos(todos));
   };
 };
 
@@ -49,17 +49,17 @@ const doAddTodo = (content) => {
   };
 }
 
-const doUpdateTodos = (ids, content) => {
+const doUpdateTodos = (todos, content) => {
   return {
     type: ACTION._UPDATE,
-    ids,
+    todos,
     content,
   };
 };
 
-const doDeleteTodos = (ids) => {
+const doDeleteTodos = (todos) => {
   return {
     type: ACTION._DELETE,
-    ids,
+    todos,
   };
 };

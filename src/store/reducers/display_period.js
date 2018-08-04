@@ -7,16 +7,15 @@ import { getLocalDate, getDateStr } from '../../global/utilities/utility';
 //----------------------------------------------------------------------------------------------------
 export const setPeriodType = (state, action) => {
   if (action.periodType !== state.periodType) {
-    const today = new Date();
-    console.log(today.toISOString().substring(0, 10),getDateStr(),getDateStr(getLocalDate()));
+    const today = getLocalDate();
 
     switch (action.periodType) {
       case PERIOD._DAY: return {
         ...state,
         period: {
           type: action.periodType,
-          fromDate: getDateStr(),
-          toDate: getDateStr(),
+          fromDate: getDateStr(today),
+          toDate: getDateStr(today),
         },
       };
       case PERIOD._WEEK: return {
@@ -75,47 +74,40 @@ export const shiftPeriod = (state, action) => {
     toDate = new Date(state.period.toDate);
 
   switch (state.period.type) {
-    case PERIOD._DAY:
-      return {
-        ...state,
-        period: {
-          ...state.period,
-          fromDate: getDateStr(new Date(fromDate.setDate(fromDate.getDate() + offset))),
-          toDate: getDateStr(new Date(toDate.setDate(toDate.getDate() + offset))),
-        },
-      };
-    case PERIOD._WEEK:
-      return {
-        ...state,
-        period: {
-          ...state.period,
-          fromDate: getDateStr(new Date(fromDate.setDate(fromDate.getDate() + 7 * offset))),
-          toDate: getDateStr(new Date(toDate.setDate(toDate.getDate() + 7 * offset))),
-        },
-      };
-    case PERIOD._MONTH:
-      return {
-        ...state,
-        period: {
-          ...state.period,
-          fromDate: getDateStr(new Date(fromDate.setMonth(fromDate.getMonth() + offset))),
-          toDate: getDateStr(action.dir === PERIOD._PREV ?
-            new Date(toDate.setDate(0)) :
-            new Date(new Date(toDate.setMonth(toDate.getMonth() + 2 * offset)).setDate(0))),
-        },
-      };
-    case PERIOD._SEASON:
-      return {
-        ...state,
-        period: {
-          ...state.period,
-          fromDate: getDateStr(new Date(fromDate.setMonth(fromDate.getMonth() + 3 * offset))),
-          toDate: getDateStr(action.dir === PERIOD._PREV ?
-            new Date(new Date(toDate.setMonth(toDate.getMonth() + 3 * offset + 1)).setDate(0)) :
-            new Date(new Date(toDate.setMonth(toDate.getMonth() + 4 * offset)).setDate(0))),
-        },
-      };
-    default:
-      return state;
+    case PERIOD._DAY: {
+      fromDate = toDate = new Date(fromDate.setDate(fromDate.getDate() + offset));
+      break;
+    }
+    case PERIOD._WEEK: {
+      fromDate = new Date(fromDate.setDate(fromDate.getDate() + 7 * offset));
+      toDate = new Date(toDate.setDate(toDate.getDate() + 7 * offset));
+      break;
+    }
+    case PERIOD._MONTH: {
+      fromDate = new Date(fromDate.setMonth(fromDate.getMonth() + offset));
+      toDate = action.dir === PERIOD._PREV ?
+        new Date(toDate.setDate(0)) :
+        new Date(new Date(toDate.setMonth(toDate.getMonth() + 2 * offset)).setDate(0));
+      break;
+    }
+    case PERIOD._SEASON: {
+      fromDate = new Date(fromDate.setMonth(fromDate.getMonth() + 3 * offset));
+      toDate = action.dir === PERIOD._PREV ?
+        new Date(new Date(toDate.setMonth(toDate.getMonth() + 3 * offset + 1)).setDate(0)) :
+        new Date(new Date(toDate.setMonth(toDate.getMonth() + 4 * offset)).setDate(0));
+      break;
+    }
+    default: {
+      break;
+    }
   }
+
+  return {
+    ...state,
+    period: {
+      ...state.period,
+      fromDate: getDateStr(fromDate),
+      toDate: getDateStr(toDate),
+    },
+  };
 }

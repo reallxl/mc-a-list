@@ -1,32 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import IndexView from './layout/IndexView/IndexView';
-import AppView from './layout/AppView/AppView';
+import McAList from './layout/McAList';
 
 import classes from './App.css';
 
-class App extends React.Component {
-  state = {
-    isActivated: false,
-  };
-
-  render = () => {
+class App extends Component {
+  render() {
     return (
-      <div className={ classes.App }>
-        <AppView />
+      <div className={classes.App}>
+        <McAList />
       </div>
     );
-  }
-
-  /*{ this.state.isActivated ?
-    <AppView /> :
-    <IndexView />
-  }*/
-
-  activate = () => {
-    this.setState({
-      isActivated: true,
-    });
   }
 }
 

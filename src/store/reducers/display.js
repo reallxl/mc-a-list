@@ -13,12 +13,12 @@ const initState = {
   sortingKey: DEFAULT._SORTING_KEY,
   period: {
     type: PERIOD._DAY,
-    fromDate: getDateStr(),
-    toDate: getDateStr(),
+    fromDate: getDateStr(getLocalDate()),
+    toDate: getDateStr(getLocalDate()),
   },
   todos: [
     {
-      date: getDateStr(),
+      date: getDateStr(getLocalDate()),
       todos: [],
     },
   ],
@@ -58,7 +58,7 @@ const reloadTodos = (state, action) => {
       todos.push(dailyTodos);
     } else {
       //--- collect todos and add a new daily todo list if found
-      const dailyTodos = action.todos.filter(todo => todo.content.date === date);
+      const dailyTodos = action.todos.filter(todo => todo.date === date);
 
       todos.push({
         date,
@@ -79,7 +79,7 @@ const reloadTodos = (state, action) => {
 //----------------------------------------------------------------------------------------------------
 const renderTodo = (state, action) => {
   const todos = state.todos.slice();
-  const dailyTodos = todos.find(dailyTodos => dailyTodos.date === action.todo.content.date);
+  const dailyTodos = todos.find(dailyTodos => dailyTodos.date === action.todo.date);
 
   todos.splice(todos.indexOf(dailyTodos), 1, {
     ...dailyTodos,
@@ -98,7 +98,7 @@ const reRenderTodos = (state, action) => {
   const periodTodos = state.todos.slice();
 
   action.todos.forEach(todo => {
-    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.content.date);
+    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.date);
     const todos = dailyTodos.todos.slice();
     const oldTodo = todos.find(testTodo => testTodo.id === todo.id);
 
@@ -123,7 +123,7 @@ const hideTodos = (state, action) => {
   const periodTodos = state.todos.slice();
 
   action.todos.forEach(todo => {
-    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.content.date);
+    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.date);
 
     periodTodos.splice(periodTodos.indexOf(dailyTodos), 1, {
       ...dailyTodos,
@@ -189,11 +189,9 @@ const sortTodosByKey = (todos, sortingKey) => {
   todos.sort((priorTodo, laterTodo) => {
     let ret = 0;
 
-    if ((sortingKey === 'id' && priorTodo[sortingKey] < laterTodo[sortingKey]) ||
-      priorTodo.content[sortingKey] < laterTodo.content[sortingKey]) {
+    if (priorTodo[sortingKey] < laterTodo[sortingKey]) {
       ret = -1;
-    } else if ((sortingKey === 'id' && priorTodo[sortingKey] > laterTodo[sortingKey]) ||
-      priorTodo.content[sortingKey] > laterTodo.content[sortingKey]) {
+    } else if ( priorTodo[sortingKey] > laterTodo[sortingKey]) {
       ret = 1;
     } else if (priorTodo.status < laterTodo.status) {
       //--- always put "done" todos at the top of each individual sorted todo group

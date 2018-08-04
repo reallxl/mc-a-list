@@ -6,7 +6,7 @@ export const getLocalDate = (date = new Date()) => new Date(date - (date.getTime
 //----------------------------------------------------------------------------------------------------
 // getDateStr
 //----------------------------------------------------------------------------------------------------
-export const getDateStr = (date = new Date()) => date.toISOString().substring(0, 10);
+export const getDateStr = (date = new Date()) => getLocalDate(date).toISOString().substring(0, 10);
 
 //----------------------------------------------------------------------------------------------------
 // retrieveTodoContent

@@ -1,0 +1,13 @@
+.SearchBar {
+  width: inherit;
+}
+
+.SearchBar input {
+  width: 130px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+.SearchBar input:focus {
+    width: 100%;
+}

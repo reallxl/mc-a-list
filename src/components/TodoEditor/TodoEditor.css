@@ -1,49 +1,36 @@
-.TodoEditor {
-  display: inline-block;
-  width: 100%;
-}
-
-.TodoEditor * {
-  display: inline-block;
-}
-
-.ToolTipsText {
-  top: 115%;
+.TodoEditor input[name='date'] {
+  margin: 0px;
+  padding: 3px 0px;
 }
 
 .TodoEditor input[name='description'] {
-  width: 74%;
-  background-color: #4CAF50;
-  color: black;
+  margin: 0px;
+  width: 500px;
+  padding: 3px 0px;
 }
 
-.TodoEditor input[name='description']::placeholder {
-  color: #555;
+.TodoEditor input[type='text'], input[type='time'] {
+  background-color: black;
 }
 
-.TodoEditor input[name='date'] {
-  width: 25%;
-  margin-right: 1%;
+.TodoEditor input::placeholder {
+  color: #00FFFF;
+}
+
+.TodoEditor td[name='lefter'] {
+  text-align: left;
+}
+
+.TodoEditor td[name='righter'] {
+  text-align: right;
 }
 
 .TodoEditor i {
   font-size: 24px;
-  padding: 4px;
+  color: black;
 }
 
-/*.TodoEditor input[type='text'], input[type='time'] {
-  background-color: black;
-}*/
-
-.Content {
-  float: left;
-  vertical-align: top;
-}
-
-.Operations {
-  float: right;
-}
-
-.DroppedContent {
-  color: #ffffb3;
+i:hover {
+  cursor: pointer;
+  color: #00FFFF;
 }

@@ -1,3 +1,3 @@
-export { CATEGORY, CATEGORY_DATA } from './categories';
+export { CATEGORY } from './categories';
 export { PERIOD } from './periods';
 export { STATUS } from './statuses';

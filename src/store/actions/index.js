@@ -1,10 +1,3 @@
-//--- edit
-export {
-  openModalEditor,
-  closeModalEditor,
-  openEmbeddedEditor,
-  closeEmbeddedEditor,
-} from './edit';
 //--- database
 export {
   addTodo,

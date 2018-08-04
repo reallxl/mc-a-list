@@ -25,13 +25,3 @@
   width: 140px;
   background-color: black;
 }
-
-:global i {
-  font-size: 24px;
-  color: black;
-}
-
-:global i:hover {
-  cursor: pointer;
-  color: #ffffb3;
-}

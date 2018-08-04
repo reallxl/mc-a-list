@@ -1,15 +1,11 @@
 @import './fontFamily.css';
 @import './primitive.css';
 @import './customized.css';
-@import './ToolTips.css';
-@import './DropDown.css';
 
 :global * {
   /*background-color: black;*/
-  color: #ffffb3;
-  font-family: 'Pangolin';
-  /*font-family: 'Oleo Script Swash Caps';*/
+  color: #00FFFF;
+  font-family: 'Oleo Script Swash Caps';
   border-radius: 5px;
-  /*padding: 3px 0px;
-  margin: 2px;*/
+  padding: 3px 0px;
 }
