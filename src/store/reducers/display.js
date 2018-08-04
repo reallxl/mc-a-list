@@ -13,12 +13,12 @@ const initState = {
   sortingKey: DEFAULT._SORTING_KEY,
   period: {
     type: PERIOD._DAY,
-    fromDate: getDateStr(getLocalDate()),
-    toDate: getDateStr(getLocalDate()),
+    fromDate: getDateStr(),
+    toDate: getDateStr(),
   },
   todos: [
     {
-      date: getDateStr(getLocalDate()),
+      date: getDateStr(),
       todos: [],
     },
   ],
@@ -58,7 +58,7 @@ const reloadTodos = (state, action) => {
       todos.push(dailyTodos);
     } else {
       //--- collect todos and add a new daily todo list if found
-      const dailyTodos = action.todos.filter(todo => todo.date === date);
+      const dailyTodos = action.todos.filter(todo => todo.content.date === date);
 
       todos.push({
         date,
@@ -79,13 +79,13 @@ const reloadTodos = (state, action) => {
 //----------------------------------------------------------------------------------------------------
 const renderTodo = (state, action) => {
   const todos = state.todos.slice();
-  const dailyTodos = todos.find(dailyTodos => dailyTodos.date === action.todo.date);
+  const dailyTodos = todos.find(dailyTodos => dailyTodos.date === action.todo.content.date);
 
   todos.splice(todos.indexOf(dailyTodos), 1, {
     ...dailyTodos,
     todos: sortTodosByKey(dailyTodos.todos.concat(action.todo), state.sortingKey),
   });
-
+  console.log('renderTodo', todos);
   return {
     ...state,
     todos,
@@ -98,7 +98,7 @@ const reRenderTodos = (state, action) => {
   const periodTodos = state.todos.slice();
 
   action.todos.forEach(todo => {
-    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.date);
+    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.content.date);
     const todos = dailyTodos.todos.slice();
     const oldTodo = todos.find(testTodo => testTodo.id === todo.id);
 
@@ -123,7 +123,7 @@ const hideTodos = (state, action) => {
   const periodTodos = state.todos.slice();
 
   action.todos.forEach(todo => {
-    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.date);
+    const dailyTodos = periodTodos.find(dailyTodos => dailyTodos.date === todo.content.date);
 
     periodTodos.splice(periodTodos.indexOf(dailyTodos), 1, {
       ...dailyTodos,

@@ -1,0 +1,15 @@
+.TodoDetails {
+  padding: 0px 8px;
+  display: inline-block;
+}
+
+.ColorPicker {
+  width: 24px;
+	height: 24px;
+	border: 1px dashed black;
+}
+
+.TodoDetails input[type="color"] {
+  display: inline-block;
+	opacity: 0;
+}

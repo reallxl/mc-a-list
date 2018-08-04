@@ -3,7 +3,7 @@ import ACTION from '../actionTypes';
 //----------------------------------------------------------------------------------------------------
 // setPeriodType
 //----------------------------------------------------------------------------------------------------
-export const setPeriodType = periodType => {
+export const setPeriodType = (periodType) => {
   return (dispatch, getState) => {
     dispatch(doSetPeriodType(periodType));
     dispatch(reloadTodos(getState().database.todos));
@@ -21,7 +21,7 @@ export const setPeriod = (periodType, fromDate, toDate) => {
 //----------------------------------------------------------------------------------------------------
 // shiftPeriod
 //----------------------------------------------------------------------------------------------------
-export const shiftPeriod = dir => {
+export const shiftPeriod = (dir) => {
   return (dispatch, getState) => {
     dispatch(doShiftPeriod(dir));
     dispatch(reloadTodos(getState().database.todos));
@@ -30,7 +30,7 @@ export const shiftPeriod = dir => {
 //----------------------------------------------------------------------------------------------------
 // reloadTodos
 //----------------------------------------------------------------------------------------------------
-export const reloadTodos = todos => {
+export const reloadTodos = (todos) => {
   return {
     type: ACTION._RELOAD,
     todos,
@@ -39,7 +39,7 @@ export const reloadTodos = todos => {
 //----------------------------------------------------------------------------------------------------
 // renderTod
 //----------------------------------------------------------------------------------------------------
-export const renderTodo = todo => {
+export const renderTodo = (todo) => {
   return {
     type: ACTION._RENDER,
     todo,
@@ -48,7 +48,7 @@ export const renderTodo = todo => {
 //----------------------------------------------------------------------------------------------------
 // reRenderTodo
 //----------------------------------------------------------------------------------------------------
-export const reRenderTodos = todos => {
+export const reRenderTodos = (todos) => {
   return {
     type: ACTION._RE_RENDER,
     todos,
@@ -57,7 +57,7 @@ export const reRenderTodos = todos => {
 //----------------------------------------------------------------------------------------------------
 // hideTodos
 //----------------------------------------------------------------------------------------------------
-export const hideTodos = todos => {
+export const hideTodos = (todos) => {
   return {
     type: ACTION._HIDE,
     todos,
@@ -76,7 +76,7 @@ export const selectTodos = (todos, selected) => {
 //----------------------------------------------------------------------------------------------------
 // sortTodos
 //----------------------------------------------------------------------------------------------------
-export const sortTodos = sortingKey => {
+export const sortTodos = (sortingKey) => {
   return {
     type: ACTION._SORT,
     sortingKey,
@@ -87,7 +87,7 @@ export const sortTodos = sortingKey => {
 // local functions
 //****************************************************************************************************
 
-const doSetPeriodType = periodType => {
+const doSetPeriodType = (periodType) => {
   return {
     type: ACTION._SET_PERIOD_TYPE,
     periodType,
@@ -103,7 +103,7 @@ const doSetPeriod = (periodType, fromDate, toDate) => {
   };
 };
 
-const doShiftPeriod = dir => {
+const doShiftPeriod = (dir) => {
   return {
     type: ACTION._SHIFT_PERIOD,
     dir,

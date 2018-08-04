@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import GreetingView from './GreetingView/GreetingView';
 import Menu from './Menu/Menu';
 import PeriodSelector from './PeriodSelector/PeriodSelector';
 import FunctionBar from './FunctionBar/FunctionBar';
@@ -23,23 +24,22 @@ class McAList extends React.Component {
   render = () => {
     return (
       <div className={ classes.McAList }>
+        { this.props.isActivated === false && <GreetingView /> }
         <table>
           <tbody>
             <tr>
-              <td colSpan="2">
-                <Menu />
+            <td>
+              <Menu />
               </td>
             </tr>
             <tr>
-              <td className="L">
+              <td>
                 <PeriodSelector />
-              </td>
-              <td className="R">
                 <FunctionBar />
               </td>
             </tr>
             <tr>
-              <td colSpan="2">
+              <td>
                 { this.layoutContent() }
               </td>
             </tr>
@@ -94,6 +94,7 @@ class McAList extends React.Component {
 
 const mappedProps = (state) => {
   return {
+    isActivated: state.display.isActivated,
     withinPeriodTodos: state.display.todos,
     period: state.display.period,
   };

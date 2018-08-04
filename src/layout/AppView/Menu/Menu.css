@@ -1,0 +1,77 @@
+.Menu {
+  background-color: #555555;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: visible;
+  border-radius: 0px;
+}
+
+.Menu i {
+  display: inline-block;
+  float: left;
+  font-size: 24px;
+  transition: all 0.5s ease;
+  padding: 5px 0px 1px;
+  width: 5%;
+}
+
+/*.Menu i:after {
+  position: absolute;
+  top: 0;
+  display: inline-block;
+  content: "";
+  border-top: 36px solid blue;
+  border-right: 18px solid transparent;
+}*/
+
+.RightMenu {
+  float: right;
+  width: 15%;
+}
+
+.RightMenu i {
+  width: 33%;
+}
+
+@media screen and (max-width: 600px) {
+  .Menu i {
+    float: none;
+    display: block;
+  }
+  .RightMenu {
+    float: none;
+  }
+}
+
+.Menu .DisplaySubMenu {
+  position: relative;
+  display: inline-block;
+  float: left;
+  border-radius: 0px;
+  transition-duration: 1s;
+}
+
+.Menu .DisplaySubMenu .DisplaySubMenuContent i {
+  color: #555555;
+  width: 33%;
+  padding: 5px 12px 1px;
+  animation-name: fadein;
+  animation-duration: 1s;
+}
+
+.Menu .DisplaySubMenu .DisplaySubMenuContent i:hover {
+  color: #ffffb3;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

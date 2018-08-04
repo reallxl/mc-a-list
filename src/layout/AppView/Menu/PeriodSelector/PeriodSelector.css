@@ -1,0 +1,26 @@
+.PeriodSelector {
+  display: inline-block;
+  margin: auto;
+}
+
+.prev {
+  position: static;
+  margin: 4px 4px;
+  left: 4px;
+  font-weight: 900;
+}
+
+.next {
+  position: static;
+  margin: 4px 4px;
+  right: 4px;
+  font-weight: 900;
+}
+
+.period {
+  width: 360px;
+  display: inline-block;
+  padding: 2px 2px 4px;
+  background-color: black;
+  border-radius: 5px;
+}
