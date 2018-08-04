@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as ACTION from '../../store/actions/index';
-import { PERIOD } from '../../global/definitions/index';
+import * as ACTION from '../../../store/actions/index';
+import { PERIOD } from '../../../global/definitions/index';
 
 import classes from './PeriodSelector.css';
 
 const PeriodSelector = (props) => {
   return (
-    <span>
+    <div className={ classes.PeriodSelector }>
       <select className={ classes.prev } defaultValue={ props.period.type } onChange={ (event) => props.onSetPeriodType(event.target.value) }>
         <option value={ PERIOD._DAY }>Daily</option>
         <option value={ PERIOD._WEEK }>Weekly</option>
@@ -20,7 +20,7 @@ const PeriodSelector = (props) => {
         <span className="Button Lefter" onClick={ () => props.onShiftPeriod(PERIOD._PREV) }>&#8249;</span>
         <span className="Button Righter" onClick={ () => props.onShiftPeriod(PERIOD._NEXT) }>&#8250;</span>
       </span>
-    </span>
+    </div>
   );
 };
 

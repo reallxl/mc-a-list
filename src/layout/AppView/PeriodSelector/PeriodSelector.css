@@ -1,6 +1,8 @@
 .PeriodSelector {
   display: inline-block;
   margin: auto;
+  position: absolute;
+  top: 50%;
 }
 
 .prev {

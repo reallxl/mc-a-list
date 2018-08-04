@@ -189,9 +189,11 @@ const sortTodosByKey = (todos, sortingKey) => {
   todos.sort((priorTodo, laterTodo) => {
     let ret = 0;
 
-    if (priorTodo[sortingKey] < laterTodo[sortingKey]) {
+    if ((sortingKey === 'id' && priorTodo[sortingKey] < laterTodo[sortingKey]) ||
+      priorTodo.content[sortingKey] < laterTodo.content[sortingKey]) {
       ret = -1;
-    } else if ( priorTodo[sortingKey] > laterTodo[sortingKey]) {
+    } else if ((sortingKey === 'id' && priorTodo[sortingKey] > laterTodo[sortingKey]) ||
+      priorTodo[sortingKey] > laterTodo[sortingKey]) {
       ret = 1;
     } else if (priorTodo.status < laterTodo.status) {
       //--- always put "done" todos at the top of each individual sorted todo group

@@ -1,13 +1,26 @@
-.Menu {
-  background-color: #555555;
+.Menu .MainMenu, .SubMenu {
   position: fixed;
-  top: 0;
   width: 100%;
   overflow: visible;
-  border-radius: 0px;
+  border-radius: 0;
+  z-index: 0;
 }
 
-.Menu i {
+.Menu .MainMenu {
+  top: 0;
+  background-color: #555555;
+}
+
+.Menu .SubMenu {
+  top: 35px;
+  height: 6px;
+  background-color: black;
+  z-index: -1;
+  transition-property: height, width;
+  transition-duration: 1s;
+}
+
+.Menu .MainMenu i {
   display: inline-block;
   float: left;
   font-size: 24px;
@@ -16,7 +29,7 @@
   width: 5%;
 }
 
-/*.Menu i:after {
+/*.Menu .MainMenu i:after {
   position: absolute;
   top: 0;
   display: inline-block;
@@ -25,17 +38,17 @@
   border-right: 18px solid transparent;
 }*/
 
-.RightMenu {
+.Menu .MainMenu .RightMenu {
   float: right;
   width: 15%;
 }
 
-.RightMenu i {
+.Menu .MainMenu .RightMenu i {
   width: 33%;
 }
 
 @media screen and (max-width: 600px) {
-  .Menu i {
+  .Menu .MainMenu i {
     float: none;
     display: block;
   }
@@ -44,15 +57,7 @@
   }
 }
 
-.Menu .DisplaySubMenu {
-  position: relative;
-  display: inline-block;
-  float: left;
-  border-radius: 0px;
-  transition-duration: 1s;
-}
-
-.Menu .DisplaySubMenu .DisplaySubMenuContent i {
+.Menu .MainMenu .DisplaySubMenu .DisplaySubMenuContent i {
   color: #555555;
   width: 33%;
   padding: 5px 12px 1px;
@@ -60,7 +65,7 @@
   animation-duration: 1s;
 }
 
-.Menu .DisplaySubMenu .DisplaySubMenuContent i:hover {
+.Menu .MainMenu .DisplaySubMenu .DisplaySubMenuContent i:hover {
   color: #ffffb3;
 }
 
@@ -75,3 +80,65 @@
     opacity: 1;
   }
 }
+
+.Menu .MainMenu .DisplaySubMenu {
+  margin-left: -8px;
+  width: 6px;
+  height: 35px;
+  position: relative;
+  display: inline-block;
+  float: left;
+  background: black;
+  border-radius: 0;
+  transition: width 1s;
+}
+.Menu .MainMenu .DisplaySubMenu:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 8px solid #555555;
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+}
+.Menu .MainMenu .DisplaySubMenu:before {
+  content: "";
+  position: absolute;
+  right: -8px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 8px solid black;
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+}
+
+/*.Menu .MainMenu .DisplaySubMenu {
+  position: relative;
+  display: inline-block;
+  float: left;
+  border-radius: 0px;
+  transition-duration: 1s;
+}*/
+
+/*
+displaySubMenuStyle = {
+  marginLeft: '-21px',
+  borderBottom: '32px solid black',
+  borderLeft: '16px solid transparent',
+  borderRight: '16px solid black',
+  height: 0,
+  width: '15%',
+  transitionProperty: 'width',
+};
+displaySubMenuStyle = {
+  marginLeft: '-12px',
+  width: '5px',
+  height: '32px',
+  transform: 'skew(-27deg)',
+  background: 'black',
+  transitionProperty: 'width, border-right',
+};
+*/

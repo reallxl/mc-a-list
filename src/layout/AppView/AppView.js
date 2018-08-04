@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Menu from './Menu/Menu';
-import FunctionBar from './FunctionBar/FunctionBar';
+import PeriodSelector from './PeriodSelector/PeriodSelector';
 import TodoEditor from '../../components/TodoEditor/TodoEditor';
 import DailyTodos from './DailyTodos/DailyTodos';
 
@@ -13,6 +13,7 @@ import classes from './AppView.css';
 
 class AppView extends React.Component {
   render = () => {
+    console.log(this.props.period.fromDate, this.props.period.toDate);
     return (
       <div className={ classes.AppView }>
         { this.props.isModalEditorActivated && (
@@ -24,6 +25,7 @@ class AppView extends React.Component {
         <div className={ classes.content }>
           { this.layoutContent() }
         </div>
+        <PeriodSelector />
       </div>
     );
   }

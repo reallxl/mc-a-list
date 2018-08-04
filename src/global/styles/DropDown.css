@@ -42,15 +42,6 @@
   cursor: default;
 }
 
-/* Links inside the DropDown */
-/*:global .DropDownContent i {
-  opacity: 1;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: inline-block;
-}*/
-
 /* Change color of DropDown links on hover */
 :global .DropDownContent i:hover {
   color: black;
