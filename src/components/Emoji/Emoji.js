@@ -7,10 +7,6 @@ const Emoji = props => {
     classes.Emoji,
   ];
 
-  if (props.larger) {
-    emojiClasses.push(classes.larger);
-  }
-
   if (props.forbidden) {
     emojiClasses.push(classes.forbidden);
   } else if (props.inactive) {

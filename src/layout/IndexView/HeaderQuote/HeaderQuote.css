@@ -1,0 +1,33 @@
+.HeaderQuote span {
+  font-family: 'Pangolin';
+  font-weight: bold;
+  font-size: 50px;
+  color: white;
+  opacity: 0;
+  animation-name: showup;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+.Intro {
+  animation-delay: 1.5s;
+}
+
+.Prelude {
+  animation-delay: 2.5s;
+}
+
+.MiddlePeriod {
+  animation-delay: 3.5s;
+}
+
+.Outro {
+  animation-delay: 5.5s;
+}
+
+@keyframes showup {
+  100% {
+    opacity: 1;
+  }
+}

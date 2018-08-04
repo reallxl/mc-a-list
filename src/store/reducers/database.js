@@ -25,7 +25,7 @@ const addTodo = (state, action) => {
   const todo = {
     id: new Date().getTime() + state.todos.length,
     status: STATUS._ON_GOING,
-    ...action.content,
+    content: action.content,
   };
 
   return {
@@ -37,16 +37,16 @@ const addTodo = (state, action) => {
 // updateTodos
 //----------------------------------------------------------------------------------------------------
 const updateTodos = (state, action) => {
-  const newTodos = action.todos.slice();
   const todos = state.todos.slice();
-  let todo;
 
-  while ((todo = newTodos.pop())) {
-    todos.splice(todos.indexOf(todo), 1, {
-      ...todo,
-      ...action.content,
-    });
-  }
+  todos.forEach(todo => {
+    if (action.ids.includes(todo.id)) {
+      todos.splice(todos.indexOf(todo), 1, {
+        ...todo,
+        content: action.content,
+      });
+    }
+  });
 
   return {
     ...state,
@@ -59,6 +59,6 @@ const updateTodos = (state, action) => {
 const deleteTodos = (state, action) => {
   return {
     ...state,
-    todos: state.todos.filter(todo => action.todos.includes(todo) === false),
+    todos: state.todos.filter(todo => action.ids.includes(todo.id) === false),
   };
 };
