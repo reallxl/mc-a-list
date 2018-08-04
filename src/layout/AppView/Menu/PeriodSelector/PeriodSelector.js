@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as ACTION from '../../../store/actions/index';
-import { PERIOD } from '../../../global/definitions/index';
+import * as ACTION from '../../../../store/actions/index';
+import { PERIOD } from '../../../../global/definitions/index';
 
 import classes from './PeriodSelector.css';
 

@@ -1,6 +1,6 @@
 import { PERIOD } from '../../global/definitions/index';
 
-import { getLocalDate, getDateStr } from '../../global/utilities/utility';
+import { getDateStr } from '../../global/utilities/utility';
 
 //----------------------------------------------------------------------------------------------------
 // setPeriodType

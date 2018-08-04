@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Menu from './Menu/Menu';
-import PeriodSelector from './PeriodSelector/PeriodSelector';
 import TodoEditor from '../../components/TodoEditor/TodoEditor';
 import DailyTodos from './DailyTodos/DailyTodos';
 
@@ -25,7 +24,6 @@ class AppView extends React.Component {
         <div className={ classes.content }>
           { this.layoutContent() }
         </div>
-        <PeriodSelector />
       </div>
     );
   }

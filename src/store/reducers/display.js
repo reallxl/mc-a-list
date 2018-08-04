@@ -4,7 +4,7 @@ import ACTION from '../actionTypes';
 
 import * as period from './display_period';
 
-import { getLocalDate, getDateStr } from '../../global/utilities/utility';
+import { getDateStr } from '../../global/utilities/utility';
 
 //----------------------------------------------------------------------------------------------------
 // reducer
@@ -193,7 +193,7 @@ const sortTodosByKey = (todos, sortingKey) => {
       priorTodo.content[sortingKey] < laterTodo.content[sortingKey]) {
       ret = -1;
     } else if ((sortingKey === 'id' && priorTodo[sortingKey] > laterTodo[sortingKey]) ||
-      priorTodo[sortingKey] > laterTodo[sortingKey]) {
+      priorTodo.content[sortingKey] > laterTodo.content[sortingKey]) {
       ret = 1;
     } else if (priorTodo.status < laterTodo.status) {
       //--- always put "done" todos at the top of each individual sorted todo group

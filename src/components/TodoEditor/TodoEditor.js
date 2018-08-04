@@ -8,7 +8,6 @@ import TodoCategory from './TodoCategory/TodoCategory';
 //import Popup from '../Popup/Popup';
 //--- global
 import * as DATA from './TodoEditor_data';
-import { CATEGORY_DATA } from '../../global/definitions/index';
 import * as ACTION from '../../store/actions/index';
 //--- local styling
 import classes from './TodoEditor.css';

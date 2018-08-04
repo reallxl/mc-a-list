@@ -1,23 +1,27 @@
-.Menu .MainMenu, .SubMenu {
+.Menu  {
   position: fixed;
   width: 100%;
   overflow: visible;
-  border-radius: 0;
   z-index: 0;
+}
+
+.Menu .MainMenu, .Divider, .SubMenu {
+  position: fixed;
+  width: 100%;
+  overflow: visible;
+  z-index: 0;
+}
+
+.Menu .Divider {
+  top: 35px;
+  height: 6px;
+  background-color: black;
+  z-index: -1;
 }
 
 .Menu .MainMenu {
   top: 0;
   background-color: #555555;
-}
-
-.Menu .SubMenu {
-  top: 35px;
-  height: 6px;
-  background-color: black;
-  z-index: -1;
-  transition-property: height, width;
-  transition-duration: 1s;
 }
 
 .Menu .MainMenu i {
@@ -89,9 +93,9 @@
   display: inline-block;
   float: left;
   background: black;
-  border-radius: 0;
   transition: width 1s;
 }
+
 .Menu .MainMenu .DisplaySubMenu:after {
   content: "";
   position: absolute;
@@ -103,6 +107,7 @@
   border-top: 18px solid transparent;
   border-bottom: 18px solid transparent;
 }
+
 .Menu .MainMenu .DisplaySubMenu:before {
   content: "";
   position: absolute;
@@ -115,11 +120,84 @@
   border-bottom: 18px solid transparent;
 }
 
+.Menu .SubMenu {
+  top: 41px;
+  height: 6px;
+  z-index: -1;
+}
+
+.Menu .SubMenu .Tag {
+  position: relative;
+  display: inline-block;
+  float: left;
+  background-color: #555555;
+  height: 35px;
+  animation-name: slidein;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+.Menu .SubMenu .Tag:after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 35px solid #555555;
+  border-left: 9px solid #555555;
+  border-right: 9px solid transparent;
+  z-index: 1;
+}
+
+.Menu .SubMenu .TagO {
+  position: relative;
+  display: inline-block;
+  float: left;
+  background-color: black;
+  height: 35px;
+  animation-name: slidein;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+.Menu .SubMenu .TagO:after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 35px solid black;
+  border-left: 9px solid black;
+  border-right: 9px solid transparent;
+  z-index: 1;
+}
+
+@keyframes slidein {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 15%;
+  }
+}
+
+.Menu .SubMenu * span {
+  float: left;
+  width: 80%;
+  text-align: center;
+  padding: 8px 0px 1px;
+  vertical-align: middle;
+  animation-name: fadein;
+  animation-duration: 1s;
+  cursor: pointer;
+}
+
 /*.Menu .MainMenu .DisplaySubMenu {
   position: relative;
   display: inline-block;
   float: left;
-  border-radius: 0px;
   transition-duration: 1s;
 }*/
 

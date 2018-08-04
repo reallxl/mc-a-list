@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Popup from 'reactjs-popup';
 
 import StatusModifier from '../../../../components/StatusModifier/StatusModifier';
 import TodoEditor from '../../../../components/TodoEditor/TodoEditor';
 
 import * as ACTION from '../../../../store/actions/index';
-import { STATUS } from '../../../../global/definitions/index';
 
 import classes from './Todo.css';
 
