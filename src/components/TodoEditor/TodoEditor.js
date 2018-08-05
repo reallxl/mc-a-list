@@ -21,7 +21,7 @@ class TodoEditor extends React.Component {
   };
 
   componentWillMount = () => {
-    if (this.props.content.description) {
+    if (this.props.content.description || this.props.content.category) {
       const content = {
         ...this.state.content,
         ...this.props.content,

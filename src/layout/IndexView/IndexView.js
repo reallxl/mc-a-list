@@ -9,7 +9,7 @@ const IndexView = (props) => {
   return (
     <div className={ classes.IndexView }>
       <HeaderQuote />
-      <TodoAdders activated={ props.activated }/>
+      <TodoAdders />
     </div>
   );
 };

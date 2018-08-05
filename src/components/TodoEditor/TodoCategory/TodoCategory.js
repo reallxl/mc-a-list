@@ -2,7 +2,7 @@ import React from 'react';
 
 import { CATEGORY_DATA } from '../../../global/definitions/index';
 
-import classes from './TodoCategory.css';
+//import classes from './TodoCategory.css';
 
 class TodoCategory extends React.Component {
   state = {

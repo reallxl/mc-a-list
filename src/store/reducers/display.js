@@ -85,7 +85,7 @@ const renderTodo = (state, action) => {
     ...dailyTodos,
     todos: sortTodosByKey(dailyTodos.todos.concat(action.todo), state.sortingKey),
   });
-  console.log('renderTodo', todos);
+
   return {
     ...state,
     todos,

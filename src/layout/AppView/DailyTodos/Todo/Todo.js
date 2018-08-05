@@ -40,9 +40,7 @@ class Todo extends React.Component {
           this.props.isEditing ? (
             <TodoEditor id={ this.props.id } content={ this.props.content } />
           ) : (
-            <div
-              onClick={ () => this.props.onSelectTodos() }
-            >
+            <div>
               {
                 this.props.content.status === STATUS._DONE ? (
                   <div className={ classes.Checked }
@@ -100,21 +98,6 @@ class Todo extends React.Component {
       this.toggleDropDown(false);
     }
   }
-
-  /*<span
-    onMouseEnter={ () => this.setState({ showReOrderIcon: true }) }
-    onMouseLeave={ () => this.setState({ showReOrderIcon: false }) }
-  >
-    { this.state.showReOrderIcon && <span className={ classes.Check }><i className="fa fa-reorder" /></span> }
-  </span>*/
-  /*{ this.props.content.status === STATUS._DONE && <Emoji symbol="💯" label="done" inactive /> }*/
-  /*{ this.state.isFocused &&
-    <Popup trigger={ <span className={ classes.More }><i className="material-icons">more_horiz</i></span> }>
-      <div>
-        <i className="fa fa-edit" onClick={ this.props.handleEdit } />
-        <i className="fa fa-trash-o" onClick={ this.props.handleDelete } />
-      </div>
-    </Popup> }*/
 }
 
 const mappedProps = (state) => {

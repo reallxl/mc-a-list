@@ -1,4 +1,37 @@
 @import './global/styles/index.css';
 
 .App {
+  text-align: center;
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #4CAF50;
+}
+
+/* The Modal (background) */
+.modal {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content/Box */
+.modalContent {
+    background-color: #555555;
+    margin: 20% auto; /* 15% from the top and centered */
+    padding: 16px 16px 8px;
+    border: 4px solid black;
+    width: 50%; /* Could be more or less, depending on screen size */
+    border-radius: 15px;
 }

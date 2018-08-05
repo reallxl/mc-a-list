@@ -24,7 +24,7 @@ export const updateTodos = (ids, content) => {
     dispatch(doUpdateTodos(ids, content));
 
     const updatedTodos = getState().database.todos.filter(todo => ids.includes(todo.id));
-    console.log(updatedTodos);
+
     dispatch(display.reRenderTodos(updatedTodos));
   };
 };

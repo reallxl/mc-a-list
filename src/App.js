@@ -1,34 +1,39 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import TodoEditor from './components/TodoEditor/TodoEditor';
 import IndexView from './layout/IndexView/IndexView';
 import AppView from './layout/AppView/AppView';
 
 import classes from './App.css';
 
-class App extends React.Component {
-  state = {
-    isActivated: false,
-  };
-
-  render = () => {
-    return (
-      <div className={ classes.App }>
-        <IndexView />
-        
-      </div>
-    );
-  }
-
-  /*{ this.state.isActivated ?
-    <AppView /> :
-    <IndexView />
-  }*/
-
-  activate = () => {
-    this.setState({
-      isActivated: true,
-    });
-  }
+const App = (props) => {
+  return (
+    <div className={ classes.App }>
+      {
+        props.isModalEditorActivated && (
+          <div className={ classes.modal }>
+            <TodoEditor preClass={ classes.modalContent } content={ props.curContent } />
+          </div>
+        )
+      }
+      {
+        props.allTodos.length ? (
+          <AppView />
+        ) : (
+          <IndexView />
+        )
+      }
+    </div>
+  );
 }
 
-export default App;
+const mappedProps = state => {
+  return {
+    allTodos: state.database.todos,
+    isModalEditorActivated: state.edit.isModalEditorActivated,
+    curContent: state.edit.curContent,
+  };
+};
+
+export default connect(mappedProps)(App);

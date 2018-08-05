@@ -98,8 +98,7 @@ class Menu extends React.Component {
   }
 
   renderSubMenu = () => {
-    let subMenuStyle,
-      subMenuContent;
+    let subMenuStyle;
 
     if (this.state.curSubMenuType) {
       subMenuStyle = this.state.curSubMenuType ? {
