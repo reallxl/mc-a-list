@@ -55,14 +55,28 @@
 }
 
 .Focused {
-  opacity: 1;
+  display: inline-block;
+}
+
+.Focused i {
+  opacity: 0.4;
 }
 
 .Focused i:hover {
   opacity: 1;
 }
 
+.Checked {
+  display: inline-block;
+}
+
+.Checked i:hover {
+  color: black;
+  cursor: default;
+}
+
 .UnFocused {
+  display: inline-block;
   opacity: 0;
 }
 

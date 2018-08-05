@@ -40,18 +40,32 @@ class Todo extends React.Component {
           this.props.isEditing ? (
             <TodoEditor id={ this.props.id } content={ this.props.content } />
           ) : (
-            <div>
-              <span className={ this.props.content.status === STATUS._DONE ? classes.Focused : focusClass } style={{margin: '0px 8px',}}>
-                <i className="fa fa-check-square-o"
-                onClick={ () => this.props.onUpdateTodos([ this.props.id, ], { status: STATUS._DONE, }) }
-                />
-              </span>
+            <div
+              onClick={ () => this.props.onSelectTodos() }
+            >
+              {
+                this.props.content.status === STATUS._DONE ? (
+                  <div className={ classes.Checked }
+                    style={ { margin: '4px 8px 0px', } }
+                  >
+                    <i className="fa fa-check-square-o" />
+                  </div>
+                ) : (
+                  <div className={ focusClass }
+                    style={ { margin: '4px 8px 0px', } }
+                  >
+                    <i className={ [ "fa fa-check-square-o" ].join(' ') }
+                      onClick={ () => this.props.onUpdateTodos([ this.props.id, ], { status: STATUS._DONE, }) }
+                    />
+                  </div>
+                )
+              }
               <p>
                 { this.props.content.description }
               </p>
               <div className={ [ focusClass, "right", "DropDown" ].join(' ') }>
                 <i className="material-icons"
-                  style={{paddingTop: '10px',marginRight: '8px',}}
+                  style={{paddingTop: '8px',marginRight: '8px',}}
                   onClick={ () => this.toggleDropDown(true) }>more_horiz</i>
                 <div className={ dropClass.join(' ') } ref={ this.dropDownRef }>
                   <i className="fa fa-edit" onClick={ () => this.props.onOpenEmbeddedEditor(this.props.id) } />

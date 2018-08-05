@@ -195,6 +195,10 @@
   animation-duration: 1s;
 }
 
+.Menu .SubMenu * span:hover {
+  color: #4CAF50;
+}
+
 /*.Menu .MainMenu .DisplaySubMenu {
   position: relative;
   display: inline-block;
