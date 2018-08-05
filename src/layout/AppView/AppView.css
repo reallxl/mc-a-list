@@ -14,11 +14,13 @@
 .content {
   width: 80%;
   position: absolute;
-  top: 50%;
+  top: 53.125%;
   left: 50%;
   color: white;
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
+  max-height: 75%;
+  overflow-y: auto;
 }
 
 
