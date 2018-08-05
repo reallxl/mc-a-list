@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import StatusModifier from '../../../../components/StatusModifier/StatusModifier';
+//import StatusModifier from '../../../../components/StatusModifier/StatusModifier';
 import TodoEditor from '../../../../components/TodoEditor/TodoEditor';
 
+import { STATUS } from '../../../../global/definitions/index';
 import * as ACTION from '../../../../store/actions/index';
 
 import classes from './Todo.css';
@@ -35,25 +36,30 @@ class Todo extends React.Component {
         onClick={ (event) => this.checkModal(event) }
         style={ { backgroundColor: this.props.content.color, } }
       >
-        { this.props.isEditing ?
-          <TodoEditor id={ this.props.id } content={ this.props.content } /> :
-          <div>
-            <span className={ focusClass } style={{margin: '0px 8px',}}>
-              <StatusModifier />
-            </span>
-            <p>
-              { this.props.content.description }
-            </p>
-            <div className={ [ focusClass, "right", "DropDown" ].join(' ') }>
-              <i className="material-icons"
-                style={{paddingTop: '10px',marginRight: '8px',}}
-                onClick={ () => this.toggleDropDown(true) }>more_horiz</i>
-              <div className={ dropClass.join(' ') } ref={ this.dropDownRef }>
-                <i className="fa fa-edit" onClick={ () => this.props.onOpenEmbeddedEditor(this.props.id) } />
-                <i className="fa fa-trash-o" onClick={ () => this.props.onDeleteTodos([ this.props.id, ]) } />
+        {
+          this.props.isEditing ? (
+            <TodoEditor id={ this.props.id } content={ this.props.content } />
+          ) : (
+            <div>
+              <span className={ this.props.content.status === STATUS._DONE ? classes.Focused : focusClass } style={{margin: '0px 8px',}}>
+                <i className="fa fa-check-square-o"
+                onClick={ () => this.props.onUpdateTodos([ this.props.id, ], { status: STATUS._DONE, }) }
+                />
+              </span>
+              <p>
+                { this.props.content.description }
+              </p>
+              <div className={ [ focusClass, "right", "DropDown" ].join(' ') }>
+                <i className="material-icons"
+                  style={{paddingTop: '10px',marginRight: '8px',}}
+                  onClick={ () => this.toggleDropDown(true) }>more_horiz</i>
+                <div className={ dropClass.join(' ') } ref={ this.dropDownRef }>
+                  <i className="fa fa-edit" onClick={ () => this.props.onOpenEmbeddedEditor(this.props.id) } />
+                  <i className="fa fa-trash-o" onClick={ () => this.props.onDeleteTodos([ this.props.id, ]) } />
+                </div>
               </div>
             </div>
-          </div>
+          )
         }
       </li>
     );
@@ -106,6 +112,7 @@ const mappedProps = (state) => {
 const mappedDispatches = (dispatch) => {
   return {
     onOpenEmbeddedEditor: (id) => dispatch(ACTION.openEmbeddedEditor(id)),
+    onUpdateTodos: (ids, content) => dispatch(ACTION.updateTodos(ids, content)),
     onDeleteTodos: (ids) => dispatch(ACTION.deleteTodos(ids)),
     onSelectTodos: (todos, value) => dispatch(ACTION.selectTodos(todos, value)),
   };

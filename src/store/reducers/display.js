@@ -186,28 +186,39 @@ const sortTodos = (state, action) => {
 //****************************************************************************************************
 
 const sortTodosByKey = (todos, sortingKey) => {
-  todos.sort((priorTodo, laterTodo) => {
-    let ret = 0;
-
-    if ((sortingKey === 'id' && priorTodo[sortingKey] < laterTodo[sortingKey]) ||
-      priorTodo.content[sortingKey] < laterTodo.content[sortingKey]) {
-      ret = -1;
-    } else if ((sortingKey === 'id' && priorTodo[sortingKey] > laterTodo[sortingKey]) ||
-      priorTodo.content[sortingKey] > laterTodo.content[sortingKey]) {
-      ret = 1;
-    } else if (priorTodo.status < laterTodo.status) {
-      //--- always put "done" todos at the top of each individual sorted todo group
-      ret = -1;
-    } else if (priorTodo.status > laterTodo.status) {
-      ret = 1;
-    }
-
-    return ret;
-  });
-
   if (sortingKey === 'id') {
     //--- which is equivalent to sorting by craetion time
-    todos = todos.filter(todo => todo.status === STATUS._DONE).concat(todos.filter(todo => todo.status !== STATUS._DONE));
+    todos.sort((priorTodo, laterTodo) => {
+      let ret = 0;
+
+      if (priorTodo[sortingKey] < laterTodo[sortingKey]) {
+        ret = -1;
+      } else if (priorTodo[sortingKey] > laterTodo[sortingKey]) {
+        ret = 1;
+      }
+
+      return ret;
+    });
+
+    todos = todos.filter(todo => todo.content.status === STATUS._DONE)
+      .concat(todos.filter(todo => todo.content.status !== STATUS._DONE));
+  } else {
+    todos.sort((priorTodo, laterTodo) => {
+      let ret = 0;
+
+      if (priorTodo.content[sortingKey] < laterTodo.content[sortingKey]) {
+        ret = -1;
+      } else if (priorTodo.content[sortingKey] > laterTodo.content[sortingKey]) {
+        ret = 1;
+      } else if (priorTodo.content.status < laterTodo.content.status) {
+        //--- always put "done" todos at the top of each individual sorted todo group
+        ret = -1;
+      } else if (priorTodo.content.status > laterTodo.content.status) {
+        ret = 1;
+      }
+
+      return ret;
+    });
   }
 
   return todos;

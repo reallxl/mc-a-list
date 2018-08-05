@@ -1,7 +1,8 @@
-import { CATEGORY } from '../../global/definitions/index';
+import { CATEGORY, STATUS } from '../../global/definitions/index';
 import { getDateStr } from '../../global/utilities/utility';
 
 export const _DEFAULT_CONTENT = {
+  status: STATUS._ON_GOING,
   //--- tags
   category: CATEGORY._PERSONAL,
   //tags: '',

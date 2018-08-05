@@ -9,7 +9,7 @@ export const addTodo = (content) => {
     dispatch(doAddTodo(content));
 
     const todo = getState().database.todos[getState().database.todos.length - 1];
-    console.log('todo',todo.content.date,'period',getState().display.period.fromDate,getState().display.period.toDate);
+
     if (todo.content.date >= getState().display.period.fromDate && todo.content.date <= getState().display.period.toDate) {
       //--- put newly added todo onto screen immediately if it's within the period
       dispatch(display.renderTodo(todo));
@@ -24,7 +24,7 @@ export const updateTodos = (ids, content) => {
     dispatch(doUpdateTodos(ids, content));
 
     const updatedTodos = getState().database.todos.filter(todo => ids.includes(todo.id));
-
+    console.log(updatedTodos);
     dispatch(display.reRenderTodos(updatedTodos));
   };
 };

@@ -24,7 +24,6 @@ export default reducer;
 const addTodo = (state, action) => {
   const todo = {
     id: new Date().getTime() + state.todos.length,
-    status: STATUS._ON_GOING,
     content: action.content,
   };
 
@@ -43,7 +42,10 @@ const updateTodos = (state, action) => {
     if (action.ids.includes(todo.id)) {
       todos.splice(todos.indexOf(todo), 1, {
         ...todo,
-        content: action.content,
+        content: {
+          ...todo.content,
+          ...action.content,
+        },
       });
     }
   });
