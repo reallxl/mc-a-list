@@ -10,6 +10,7 @@
   width: 100%;
   text-align: left;
   color: #ffffb3;
+  z-index: 1;
 
   /* make the list items unselectable */
   -webkit-user-select: none;
@@ -17,6 +18,20 @@
   -ms-user-select: none;
   user-select: none;
   border-radius: 20px;
+
+  animation-name: showup;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes showup {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .Todo .Check {

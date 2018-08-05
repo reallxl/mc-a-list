@@ -10,7 +10,6 @@ import classes from './DailyTodos.css';
 
 class DailyTodos extends React.Component {
   render = () => {
-    console.log('render daily', this.props.date);
     return (
       <div className={ classes.DailyTodos }>
         { this.props.period.type !== PERIOD._DAY && <p>{ this.props.date }</p> }

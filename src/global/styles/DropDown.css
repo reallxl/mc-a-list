@@ -32,7 +32,6 @@
   /*min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
   position: absolute;
-  z-index: 1;
   right: 0;
   /*top: 125%;
   left: 50px;
@@ -52,4 +51,5 @@
 /* Show the DropDown menu (use JS to add this class to the .DropDownContent container when the user clicks on the DropDown button) */
 :global .show {
   display: inline-block;
+  z-index: 2;
 }
