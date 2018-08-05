@@ -16,6 +16,10 @@
   border-radius: 0px;
 }
 
+.Logo div {
+  display: inline-block;
+}
+
 .McPart, .ListPart {
   color: #ffffb3;
   font-family: 'Bungee Outline';
@@ -24,4 +28,25 @@
 .APart {
   color: #4CAF50;
   font-family: 'Fredericka the Great';
+  animation-name: gradient;
+  animation-duration: 8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes gradient {
+  25% {
+    color: #555555;
+  }
+  50% {
+    transform: rotateY(180deg);
+    color: #4CAF50;
+  }
+  75% {
+    color: #555555;
+  }
+  100% {
+    transform: rotateY(0);
+    color: #4CAF50;
+  }
 }
