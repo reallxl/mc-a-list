@@ -135,6 +135,7 @@
   animation-name: slidein;
   animation-duration: 1s;
   animation-fill-mode: forwards;
+  cursor: pointer;
 }
 
 .Menu .SubMenu .Tag:after {
@@ -159,6 +160,7 @@
   animation-name: slidein;
   animation-duration: 1s;
   animation-fill-mode: forwards;
+  cursor: pointer;
 }
 
 .Menu .SubMenu .TagO:after {
@@ -191,7 +193,6 @@
   vertical-align: middle;
   animation-name: fadein;
   animation-duration: 1s;
-  cursor: pointer;
 }
 
 /*.Menu .MainMenu .DisplaySubMenu {

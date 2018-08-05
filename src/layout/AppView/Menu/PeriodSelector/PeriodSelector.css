@@ -1,8 +1,9 @@
 .PeriodSelector {
+  position: relative;
   display: inline-block;
-  margin: auto;
-  position: absolute;
-  top: 50%;
+  width: 100%;
+  float: left;
+  top: 0;
 }
 
 .prev {
@@ -25,4 +26,158 @@
   padding: 2px 2px 4px;
   background-color: black;
   border-radius: 5px;
+}
+
+.PeriodSelector .Tag {
+  position: relative;
+  display: inline-block;
+  float: left;
+  background-color: #555555;
+  height: 35px;
+  animation-name: slidein;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  cursor: pointer;
+}
+
+.PeriodSelector .Tag:after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 35px solid #555555;
+  border-left: 9px solid #555555;
+  border-right: 9px solid transparent;
+  z-index: 1;
+}
+
+.PeriodSelector .TagW {
+  position: relative;
+  display: inline-block;
+  float: left;
+  background-color: #555555;
+  height: 35px;
+  animation-name: slideInWide;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+.PeriodSelector .TagW:after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 35px solid #555555;
+  border-left: 9px solid #555555;
+  border-right: 9px solid transparent;
+  z-index: 1;
+}
+
+.PeriodSelector .TagO {
+  position: relative;
+  display: inline-block;
+  float: left;
+  background-color: black;
+  height: 35px;
+  animation-name: slidein;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.PeriodSelector .TagO:after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 35px solid black;
+  border-left: 9px solid black;
+  border-right: 9px solid transparent;
+  z-index: 1;
+}
+
+/*.PeriodSelector .Tag span {
+  float: left;
+  width: 80%;
+  text-align: center;
+  padding: 8px 0px 1px;
+  vertical-align: middle;
+  animation-name: fadein;
+  animation-duration: 1s;
+}*/
+
+.PeriodSelector .TagO i {
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 24px;
+  color: #555555;
+  transition: all 0.5s ease;
+  padding: 5px 0px 1px 18px;
+  width: 33%;
+}
+
+.PeriodSelector .TagO i:hover {
+  cursor: pointer;
+  color: #ffffb3;
+}
+
+@keyframes slidein {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 15%;
+  }
+}
+
+@keyframes slideInWide {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 30%;
+  }
+}
+
+.PeriodSelector .TagA {
+  position: relative;
+  display: block;
+  float: left;
+  background-color: black;
+  height: 35px;
+  width: 100%;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.PeriodSelector .TagW .DateSelector {
+  width: 100%;
+}
+
+:global .DropDownContent a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+:global .DropDownContent a:hover {
+    background-color: #ddd;
 }

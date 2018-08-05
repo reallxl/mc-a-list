@@ -121,14 +121,20 @@ class Menu extends React.Component {
           <div className={ classes.SubMenu }
             style={ subMenuStyle }
           >
-            <div className={ classes.Tag }>
-              <span onClick={ () => this.props.onSortTodos('id') }>by time</span>
+            <div className={ classes.Tag }
+             onClick={ () => this.props.onSortTodos('id') }
+            >
+              <span>by time</span>
             </div>
-            <div className={ classes.TagO }>
-              <span onClick={ () => this.props.onSortTodos('category') }>by category</span>
+            <div className={ classes.TagO }
+             onClick={ () => this.props.onSortTodos('category') }
+            >
+              <span>by category</span>
             </div>
-            <div className={ classes.Tag }>
-              <span onClick={ () => this.props.onSortTodos('color') }>by color</span>
+            <div className={ classes.Tag }
+             onClick={ () => this.props.onSortTodos('color') }
+            >
+              <span>by color</span>
             </div>
           </div>
         );

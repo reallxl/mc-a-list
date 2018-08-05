@@ -1,8 +1,8 @@
 export const PERIOD = Object.freeze({
-  _DAY: 'DAY',
-  _WEEK: 'WEEK',
-  _MONTH: 'MONTH',
-  _SEASON: 'SEASON',
+  _DAY: 'daily',
+  _WEEK: 'weekly',
+  _MONTH: 'monthly',
+  _SEASON: 'quarter',
 
   _PREV: 'PREV',
   _NEXT: 'NEXT',
